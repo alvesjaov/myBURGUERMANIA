@@ -1,0 +1,16 @@
+.button {
+  cursor: pointer;
+  font-family: var(--Nunito-font); 
+  font-size: 1.35rem;
+  font-weight: 700;
+  padding: 0.6rem 1rem;
+  border-radius: 1rem;
+  border: solid 1px var(--secondary-color);
+  background-color: var(--withe-color); 
+  color: var(--main-color);
+}
+
+.button:hover {
+  background-color: var(--secondary-color);
+  color: var(--white-color); 
+}
