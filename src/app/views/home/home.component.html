@@ -3,10 +3,26 @@
     <section class="main-section">
         <div class="headline">
         </div>
-        <img src="/imagemPrincipal.svg" class="imgBurguer" alt="Principal do site mostrando hambúrgueres com o nome BURGUER por trás" title="Imagem principal do site mostrando hambúrgueres com o nome BURGUER por trás"/>
+        <img src="/imagemPrincipal.svg" class="imgBurguer"
+            alt="Principal do site mostrando hambúrgueres com o nome BURGUER por trás"
+            title="Imagem principal do site mostrando hambúrgueres com o nome BURGUER por trás" />
     </section>
 
     <section class="home-buttons">
         <app-button routerLink="/pedido"></app-button>
     </section>
+
+    <section id="home-location">
+        <h2 class="home-location-title">Localização</h2>
+        <p class="home-location-text">Estr. Bem Querer, Km-04 - 3293, 3391 - Campus de, Candeias - BA, 45083-900</p>
+        <iframe
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d30846.327445886684!2d-40.825211404524545!3d-14.892964522046352!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x7463b11e5a16f73%3A0x656a6e73de91d366!2sUESB%20%E2%80%93%20Universidade%20Estadual%20do%20Sudoeste%20da%20Bahia!5e0!3m2!1spt-BR!2sbr!4v1732054264356!5m2!1spt-BR!2sbr"
+            allowfullscreen="" title="Location Map" class="map-iframe"></iframe>
+
+        <h2 id="home-contact-title">Contato</h2>
+        <span class="home-contact-text"><img src="/whatsapp-icon.svg" alt="Ícone WhatsApp"> (77) 3424-8600</span> <br>
+        <span class="home-contact-text"><img src="/instagram-icon.svg" alt="Ícone Instagram">&#64;burguermania.oficial</span>
+
+    </section>
 </main>
+<app-footer></app-footer>

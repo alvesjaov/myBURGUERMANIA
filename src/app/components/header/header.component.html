@@ -2,9 +2,9 @@
   <img src="/burguerManiaLogo.svg" alt="Burguer Mania Logo" />
   <nav class="app-nav">
     <a *ngIf="!isHomePage" href="" class="header-links">Início</a>
-    <a href="" class="header-links">Categoria</a>
+    <a *ngIf="!isHomePage" href="" class="header-links">Categoria</a>
     <a *ngIf="!isHomePage" href="" class="header-links">Cardápio</a>
-    <a href="" class="header-links">Localização</a>
-    <a href="" class="header-links">Contato</a>
+    <a href="#home-location" class="header-links">Localização</a>
+    <a href="#home-contact-title" class="header-links">Contato</a>
   </nav>
 </header>
