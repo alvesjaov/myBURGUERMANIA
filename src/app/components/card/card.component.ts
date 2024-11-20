@@ -6,10 +6,11 @@ import { CurrencyPipe, NgIf } from '@angular/common';
   standalone: true,
   imports: [CurrencyPipe, NgIf], // Adicionar CurrencyPipe e NgIf
   templateUrl: './card.component.html',
-  styleUrl: './card.component.css'
+  styleUrls: ['./card.component.css']
 })
 export class CardComponent {
   @Input() image: string = '';
   @Input() title: string = '';
   @Input() price: string = '';
+  @Input() description: string = ''; // Certifique-se de que esta linha está presente
 }
