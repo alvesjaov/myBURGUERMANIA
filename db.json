@@ -1,0 +1,76 @@
+{
+  "products": [
+    {
+      "id": "1",
+      "title": "Hambúrguer Tradicional",
+      "price": 19.99,
+      "description": "Pão, carne, queijo, alface, tomate, maionese",
+      "image": "/hamburguer-tradicional.png"
+    },
+    {
+      "id": "2",
+      "title": "Hambúrguer Vegano",
+      "price": 24.99,
+      "description": "Pão, carne de soja, alface, tomate, maionese vegana",
+      "image": "/hamburguer-vegano.png"
+    },
+    {
+      "id": "3",
+      "title": "Hambúrguer de Frango",
+      "price": 21.99,
+      "description": "Pão, frango, queijo, alface, tomate, maionese",
+      "image": "/hamburguer-frango.png"
+    },
+    {
+      "id": "4",
+      "title": "Hambúrguer de Bacon",
+      "price": 22.99,
+      "description": "Pão, carne, bacon, queijo, alface, tomate, maionese",
+      "image": "/hamburgue-bacon.png"
+    },
+    {
+      "id": "5",
+      "title": "Porção de Batata",
+      "price": 23.99,
+      "description": "Batata frita crocante",
+      "image": "/porcao-batata.png"
+    },
+    {
+      "id": "6",
+      "title": "Porção de Onion Rings",
+      "price": 19.99,
+      "description": "Anéis de cebola empanados e fritos",
+      "image": "/porcao-onion.png"
+    },
+    {
+      "id": "7",
+      "title": "Porção de Nuggets",
+      "price": 21.99,
+      "description": "Nuggets de frango crocantes",
+      "image": "/porcao-nuggets.png"
+    },
+    {
+      "id": "8",
+      "title": "Coca-cola Lata",
+      "price": 5.99,
+      "description": "Refrigerante de cola",
+      "image": "/coca-cola.jpeg"
+    },
+    {
+      "id": "9",
+      "title": "Coca-cola Zero Lata",
+      "price": 5.99,
+      "description": "Refrigerante de cola zero açúcar",
+      "image": "/coca-cola-zero.jpeg"
+    },
+    {
+      "id": "10",
+      "title": "Guaraná Lata",
+      "price": 5.99,
+      "description": "Refrigerante de guaraná",
+      "image": "/guarana.jpeg"
+    }
+  ],
+  "orders": [],
+  "finalizedOrders": []
+}
