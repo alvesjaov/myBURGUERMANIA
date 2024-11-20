@@ -1,18 +1,22 @@
 <header class="app-header">
   <img src="/burguerManiaLogo.svg" alt="Burguer Mania Logo" />
-  <nav class="app-nav">
+  <button class="menu-toggle" (click)="toggleMenu()">
+    <span *ngIf="!isMenuOpen">&#9776;</span>
+    <span *ngIf="isMenuOpen">&times;</span>
+  </button> <!-- Modificado -->
+  <nav class="app-nav" [class.open]="isMenuOpen"> <!-- Modificado -->
     <ng-container *ngIf="!isHomePage">
-      <a href="/" class="header-links">Início</a>
+      <a href="/" class="header-links" (click)="closeMenu()">Início</a> <!-- Modificado -->
     </ng-container>
     <ng-container *ngIf="!isHomePage">
-      <a href="/pedido" class="header-links">Pedido</a>
+      <a href="/pedido" class="header-links" (click)="closeMenu()">Pedido</a> <!-- Modificado -->
     </ng-container>
     <ng-container *ngIf="!isHomePage && !isMenuPage">
-      <a href="/cardapio" class="header-links">Cardápio</a>
+      <a href="/cardapio" class="header-links" (click)="closeMenu()">Cardápio</a> <!-- Modificado -->
     </ng-container>
     <ng-container *ngIf="isHomePage">
-      <a href="#home-location" class="header-links">Localização</a>
-      <a href="#home-contact-title" class="header-links">Contato</a>
+      <a href="#home-location" class="header-links" (click)="closeMenu()">Localização</a> <!-- Modificado -->
+      <a href="#home-contact-title" class="header-links" (click)="closeMenu()">Contato</a> <!-- Modificado -->
     </ng-container>
   </nav>
 </header>

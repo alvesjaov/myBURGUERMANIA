@@ -13,6 +13,7 @@ export class HeaderComponent implements OnInit {
   isHomePage: boolean;
   isMenuPage: boolean;
   isOrderPage: boolean = false;
+  isMenuOpen: boolean = false; // Adicionado
 
   constructor(private readonly router: Router) {
     this.isHomePage = this.isHomeRoute(this.router.url);
@@ -26,6 +27,14 @@ export class HeaderComponent implements OnInit {
         this.isMenuPage = this.isMenuRoute(this.router.url);
       }
     });
+  }
+
+  toggleMenu() { // Adicionado
+    this.isMenuOpen = !this.isMenuOpen;
+  }
+
+  closeMenu() { // Adicionado
+    this.isMenuOpen = false;
   }
 
   private isHomeRoute(url: string): boolean {

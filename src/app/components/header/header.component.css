@@ -8,12 +8,37 @@
   margin-right: auto;
 }
 
+.menu-toggle {
+  display: none;
+  font-size: 2rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  z-index: 1000;
+}
+
 .app-nav {
   display: flex;
   gap: 30px;
 }
 
-
+.app-nav.open { /* Modificado */
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: white;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  z-index: 999;
+}
 
 .header-links {
   display: flex;
@@ -32,4 +57,15 @@
 
 .header-links:hover {
   color: var(--hover-color);
+}
+
+@media (max-width: 768px) { /* Modificado */
+  .menu-toggle {
+    display: block;
+  }
+  .app-nav {
+    display: none;
+    flex-direction: column;
+    gap: 10px;
+  }
 }
