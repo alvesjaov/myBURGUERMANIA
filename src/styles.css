@@ -14,6 +14,7 @@
     --main-color: #521D16;
     --secondary-color: #ED0000;
     --hover-color: #FFA500;
+    --green-color: #007100;
 }
 
 body::-webkit-scrollbar {

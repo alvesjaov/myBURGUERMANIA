@@ -1,8 +1,7 @@
 import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common'; // Importando CommonModule
+import { CommonModule, NgOptimizedImage } from '@angular/common'; 
 import { HeaderComponent } from '../../components/header/header.component';
-import { ButtonModule } from '../../components/button/button.module'; // Importando o módulo ButtonModule
-import { NgOptimizedImage } from '@angular/common';
+import { ButtonModule } from '../../components/button/button.module'; 
 import { FooterComponent } from '../../components/footer/footer.component';
 import { CardComponent } from '../../components/card/card.component';
 
@@ -15,8 +14,19 @@ import { CardComponent } from '../../components/card/card.component';
 })
 export class MenuComponent {
   showFullMenu: boolean = false;
+  selectedProduct: any = null;
+  quantity: number = 1;
 
   toggleFullMenu() {
     this.showFullMenu = !this.showFullMenu;
+  }
+
+  openProductDetails(product: any) {
+    this.selectedProduct = product;
+    this.quantity = 1; // Resetar a quantidade ao abrir os detalhes do produto
+  }
+
+  adjustQuantity(amount: number) {
+    this.quantity = Math.max(1, this.quantity + amount);
   }
 }

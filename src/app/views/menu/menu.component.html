@@ -6,13 +6,13 @@
       <section class="section-menu">
          <h2 class="section-title">Hambúrgueres</h2>
 
-         <app-card image="/hamburguer-tradicional.png" title="Hambúrguer Tradicional" price="R$ 19.99">
+         <app-card image="/hamburguer-tradicional.png" title="Hambúrguer Tradicional" price="R$ 19.99" (click)="openProductDetails({image: '/hamburguer-tradicional.png', title: 'Hambúrguer Tradicional', price: 'R$ 19.99'})" (keypress)="openProductDetails({image: '/hamburguer-tradicional.png', title: 'Hambúrguer Tradicional', price: 'R$ 19.99'})">
          </app-card>
-         <app-card image="/hamburguer-vegano.png" title="Hambúrguer Vegano" price="R$ 24.99">
+         <app-card image="/hamburguer-vegano.png" title="Hambúrguer Vegano" price="R$ 24.99" (click)="openProductDetails({image: '/hamburguer-vegano.png', title: 'Hambúrguer Vegano', price: 'R$ 24.99'})" (keypress)="openProductDetails({image: '/hamburguer-vegano.png', title: 'Hambúrguer Vegano', price: 'R$ 24.99'})">
          </app-card>
-         <app-card image="/hamburguer-frango.png" title="Hambúrguer de Frango" price="R$ 21.99">
+         <app-card image="/hamburguer-frango.png" title="Hambúrguer de Frango" price="R$ 21.99" (click)="openProductDetails({image: '/hamburguer-frango.png', title: 'Hambúrguer de Frango', price: 'R$ 21.99'})" (keypress)="openProductDetails({image: '/hamburguer-frango.png', title: 'Hambúrguer de Frango', price: 'R$ 21.99'})">
          </app-card>
-         <app-card image="/hamburgue-bacon.png" title="Hambúrguer de Bacon" price="R$ 22.99">
+         <app-card image="/hamburgue-bacon.png" title="Hambúrguer de Bacon" price="R$ 22.99" (click)="openProductDetails({image: '/hamburgue-bacon.png', title: 'Hambúrguer de Bacon', price: 'R$ 22.99'})" (keypress)="openProductDetails({image: '/hamburgue-bacon.png', title: 'Hambúrguer de Bacon', price: 'R$ 22.99'})">
          </app-card>
       </section>
 
@@ -24,24 +24,39 @@
          <section class="section-menu">
             <h2 class="section-title">Porções</h2>
 
-            <app-card image="/porcao-batata.png" title="Porção de Batata" price="R$ 23.99">
+            <app-card image="/porcao-batata.png" title="Porção de Batata" price="R$ 23.99" (click)="openProductDetails({image: '/porcao-batata.png', title: 'Porção de Batata', price: 'R$ 23.99'})" (keypress)="openProductDetails({image: '/porcao-batata.png', title: 'Porção de Batata', price: 'R$ 23.99'})">
             </app-card>
-            <app-card image="/porcao-onion.png" title="Porção de Onion Rings" price="R$ 19.99">
+            <app-card image="/porcao-onion.png" title="Porção de Onion Rings" price="R$ 19.99" (click)="openProductDetails({image: '/porcao-onion.png', title: 'Porção de Onion Rings', price: 'R$ 19.99'})" (keypress)="openProductDetails({image: '/porcao-onion.png', title: 'Porção de Onion Rings', price: 'R$ 19.99'})">
             </app-card>
-            <app-card image="/porcao-nuggets.png" title="Porção de Nuggets" price="R$ 21.99">
+            <app-card image="/porcao-nuggets.png" title="Porção de Nuggets" price="R$ 21.99" (click)="openProductDetails({image: '/porcao-nuggets.png', title: 'Porção de Nuggets', price: 'R$ 21.99'})" (keypress)="openProductDetails({image: '/porcao-nuggets.png', title: 'Porção de Nuggets', price: 'R$ 21.99'})">
             </app-card>
          </section>
 
          <section class="section-menu">
             <h2 class="section-title">Bebidas</h2>
 
-            <app-card image="/coca-cola.jpeg" title="Coca-cola Lata" price="R$ 5.99">
+            <app-card image="/coca-cola.jpeg" title="Coca-cola Lata" price="R$ 5.99" (click)="openProductDetails({image: '/coca-cola.jpeg', title: 'Coca-cola Lata', price: 'R$ 5.99'})" (keypress)="openProductDetails({image: '/coca-cola.jpeg', title: 'Coca-cola Lata', price: 'R$ 5.99'})">
             </app-card>
-            <app-card image="/coca-cola-zero.jpeg" title="Coca-cola Zero Lata" price="R$ 5.99">
+            <app-card image="/coca-cola-zero.jpeg" title="Coca-cola Zero Lata" price="R$ 5.99" (click)="openProductDetails({image: '/coca-cola-zero.jpeg', title: 'Coca-cola Zero Lata', price: 'R$ 5.99'})" (keypress)="openProductDetails({image: '/coca-cola-zero.jpeg', title: 'Coca-cola Zero Lata', price: 'R$ 5.99'})">
             </app-card>
-            <app-card image="/guarana.jpeg" title="Guaraná Lata" price="R$ 5.99">
+            <app-card image="/guarana.jpeg" title="Guaraná Lata" price="R$ 5.99" (click)="openProductDetails({image: '/guarana.jpeg', title: 'Guaraná Lata', price: 'R$ 5.99'})" (keypress)="openProductDetails({image: '/guarana.jpeg', title: 'Guaraná Lata', price: 'R$ 5.99'})">
             </app-card>
          </section>
+      </div>
+
+      <div *ngIf="selectedProduct" class="modal">
+         <div class="modal-content">
+            <span class="close" (click)="selectedProduct = null" (keydown)="selectedProduct = null">&times;</span>
+            <img [src]="selectedProduct.image" alt="Produto" class="modal-image">
+            <h2 class="modal-title">{{ selectedProduct.title }}</h2>
+            <p class="modal-price">{{ selectedProduct.price }}</p>
+            <div class="quantity-selector">
+               <button class= "quantity-button-left" (click)="adjustQuantity(-1)">-</button>
+               <span>{{ quantity }}</span>
+               <button class= "quantity-button-right" (click)="adjustQuantity(1)">+</button>
+            </div>
+            <button class="add-to-order-button">Adicionar ao Pedido</button>
+         </div>
       </div>
    </main>
 </div>
