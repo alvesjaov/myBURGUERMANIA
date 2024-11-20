@@ -22,6 +22,8 @@
     --overlay-color: rgba(0, 0, 0, 0.4);
 }
 
+
+
 body::-webkit-scrollbar {
     width: 5px;
     /* width de toda a barra de rolagem */

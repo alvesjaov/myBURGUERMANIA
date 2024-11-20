@@ -5,7 +5,7 @@ main {
   justify-content: center;
 }
 
-.main-section{
+.main-section {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -66,21 +66,29 @@ main {
 }
 
 @media (max-width: 768px) {
+  main {
+    padding: 0 1rem;
+  }
+
   .imgBurguer {
     width: 90%;
 
   }
+
   .map-iframe {
     width: 100%;
   }
 }
 
 @media (max-width: 480px) {
-  .home-location-title, #home-contact-title {
+
+  .home-location-title,
+  #home-contact-title {
     font-size: 1.2rem;
   }
 
-  .home-location-text, .home-contact-text {
+  .home-location-text,
+  .home-contact-text {
     font-size: 1rem;
   }
 }
