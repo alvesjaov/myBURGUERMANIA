@@ -46,7 +46,7 @@ export class MenuComponent {
       ]
     };
 
-    this.http.post('http://localhost:3000/orders', order)
+    this.http.post('https://json-server-burguermania.vercel.app/orders', order)
       .subscribe(response => {
         console.log('Pedido enviado com sucesso!', response);
         this.selectedProduct = null;

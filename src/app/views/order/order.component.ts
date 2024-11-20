@@ -43,7 +43,7 @@ export class OrderComponent implements OnInit {
   }
 
   fetchOrders() {
-    this.http.get<Order[]>('http://localhost:3000/orders')
+    this.http.get<Order[]>('https://json-server-burguermania.vercel.app/orders')
       .subscribe(data => {
         const combinedOrders: Order[] = [];
 
@@ -104,7 +104,7 @@ export class OrderComponent implements OnInit {
     const index = this.orders.findIndex(order => order.id === orderId);
     if (index > -1) {
       this.orders.splice(index, 1);
-      this.http.delete(`http://localhost:3000/orders/${orderId}`).subscribe(() => {
+      this.http.delete(`https://json-server-burguermania.vercel.app/orders/${orderId}`).subscribe(() => {
         console.log('Pedido removido com sucesso!');
       });
     }
@@ -123,7 +123,7 @@ export class OrderComponent implements OnInit {
       items: this.orders
     };
 
-    this.http.post('http://localhost:3000/finalizedOrders', orderDetails)
+    this.http.post('https://json-server-burguermania.vercel.app/finalizedOrders', orderDetails)
       .subscribe(response => {
         console.log('Pedido finalizado com sucesso!', response);
         this.showOverlay = true; // Mostrar a tela de sobreposição após finalizar o pedido
