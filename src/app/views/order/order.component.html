@@ -5,9 +5,14 @@
     <div *ngIf="orders.length > 0; else noOrders">
       <div class="order-item">
         <ul>
-          <li *ngFor="let item of orders">
-            <img [src]="item.image" alt="Produto" class="item-image">
-            <span class="order-description">{{ item.quantity }}x {{ item.productName }} - {{ (item.price * item.quantity) | currency:'BRL' }}</span>
+          <li *ngFor="let order of orders">
+            <ul>
+              <li *ngFor="let item of order.items">
+                <img [src]="item.image" alt="Produto" class="item-image">
+                <span class="order-description">{{ item.quantity }}x {{ item.productName }} - {{ (item.price * item.quantity) | currency:'BRL' }}</span>
+              </li>
+            </ul>
+            <button (click)="removeItem(order.id)" class="remove-button"> ✘Remover </button>
           </li>
         </ul>
         <p class="order-total">Total: {{ getTotal() | currency:'BRL' }}</p>
@@ -62,8 +67,8 @@
       </li>
     </ul>
     <p><strong>Total do Pedido:</strong> {{ getTotal() | currency:'BRL' }}</p>
-    <div style="text-align: center;">
-      <button (click)="showOrderModal = false">Fechar</button>
+    <div class="modal-footer">
+      <button (click)="showOrderModal = false" class="close-button">Fechar</button>
     </div>
   </div>
 </div>

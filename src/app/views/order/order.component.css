@@ -209,3 +209,39 @@ li {
   margin: 1rem 0;
   transition: background-color 0.3s ease;
 }
+
+.modal-footer {
+  text-align: center;
+}
+
+.close-button {
+  font-size: 1.2rem;
+  font-family: var(--Quicksand-font);
+  background-color: var(--green-color);
+  color: var(--white-color);
+  font-weight: 600;
+  padding: 10px 30px;
+  border: none;
+  border-radius: .5rem;
+  cursor: pointer;
+  margin: 1rem 0;
+  transition: background-color 0.3s ease;
+}
+
+.remove-button {
+  font-size: 0.9rem;
+  font-family: var(--Quicksand-font);
+  background-color: var(--red-color);
+  color: var(--secondary-color);
+  font-weight: 600;
+  padding: 5px 10px;
+  border: none;
+  border-radius: .3rem;
+  cursor: pointer;
+  margin-left: 1rem;
+  transition: background-color 0.3s ease;
+}
+
+.remove-button:hover {
+  background-color: darken(var(--red-color), 10%);
+}

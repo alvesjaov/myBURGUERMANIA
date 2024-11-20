@@ -11,9 +11,11 @@ interface OrderItem {
   productName: string;
   price: number;
   quantity: number;
+  image?: string; // Adicionar a propriedade image
 }
 
 interface Order {
+  id: string; // Adicionar a propriedade id no nível do pedido
   items: OrderItem[];
 }
 
@@ -41,12 +43,38 @@ export class OrderComponent implements OnInit {
   }
 
   fetchOrders() {
-    this.http.get<any[]>('http://localhost:3000/orders')
+    this.http.get<Order[]>('http://localhost:3000/orders')
       .subscribe(data => {
-        this.orders = data.flatMap((order: Order) => order.items.map((item: OrderItem) => ({
-          ...item,
-          image: this.getProductImage(item.productName)
-        }))); // Tratar todos os itens como um único pedido e adicionar a imagem
+        const combinedOrders: Order[] = [];
+
+        data.forEach(order => {
+          const existingOrder = combinedOrders.find(o => o.id === order.id);
+          if (existingOrder) {
+            order.items.forEach(item => {
+              const existingItem = existingOrder.items.find(i => i.productName === item.productName);
+              if (existingItem) {
+                existingItem.quantity += item.quantity;
+              } else {
+                existingOrder.items.push({ ...item, image: this.getProductImage(item.productName) });
+              }
+            });
+          } else {
+            combinedOrders.push({
+              ...order,
+              items: order.items.reduce((acc, item) => {
+                const existingItem = acc.find(i => i.productName === item.productName);
+                if (existingItem) {
+                  existingItem.quantity += item.quantity;
+                } else {
+                  acc.push({ ...item, image: this.getProductImage(item.productName) });
+                }
+                return acc;
+              }, [] as OrderItem[])
+            });
+          }
+        });
+
+        this.orders = combinedOrders;
       });
   }
 
@@ -67,7 +95,19 @@ export class OrderComponent implements OnInit {
   }
 
   getTotal() {
-    return this.orders.reduce((total: number, item: any) => total + item.price * item.quantity, 0);
+    return this.orders.reduce((total: number, order: Order) => {
+      return total + order.items.reduce((orderTotal, item) => orderTotal + item.price * item.quantity, 0);
+    }, 0);
+  }
+
+  removeItem(orderId: string) {
+    const index = this.orders.findIndex(order => order.id === orderId);
+    if (index > -1) {
+      this.orders.splice(index, 1);
+      this.http.delete(`http://localhost:3000/orders/${orderId}`).subscribe(() => {
+        console.log('Pedido removido com sucesso!');
+      });
+    }
   }
 
   finalizeOrder() {
@@ -92,3 +132,4 @@ export class OrderComponent implements OnInit {
       });
   }
 }
+
