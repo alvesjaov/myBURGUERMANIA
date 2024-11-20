@@ -11,6 +11,6 @@ import { CurrencyPipe, NgIf } from '@angular/common';
 export class CardComponent {
   @Input() image: string = '';
   @Input() title: string = '';
-  @Input() price: string = '';
-  @Input() description: string = ''; // Certifique-se de que esta linha está presente
+  @Input() price: number = 0; // Adicionado valor padrão
+  @Input() description: string = '';
 }

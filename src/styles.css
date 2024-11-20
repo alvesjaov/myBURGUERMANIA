@@ -15,6 +15,11 @@
     --secondary-color: #ED0000;
     --hover-color: #FFA500;
     --green-color: #007100;
+    --gray-color: #8e8e8e;
+    --light-gray-color: #ccc;
+    --light-background-color: #f9f9f9;
+    --modal-background-color: #fefefe;
+    --overlay-color: rgba(0, 0, 0, 0.4);
 }
 
 body::-webkit-scrollbar {
@@ -28,7 +33,7 @@ body::-webkit-scrollbar-track {
 }
 
 body::-webkit-scrollbar-thumb {
-    background-color: #8e8e8e;
+    background-color: var(--gray-color);
     /* cor do botão de rolagem*/
     border-radius: 20px;
     /* redondeza do botão de rolagem */
