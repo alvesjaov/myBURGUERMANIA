@@ -12,6 +12,7 @@ import { CommonModule } from '@angular/common';
 export class HeaderComponent implements OnInit {
   isHomePage: boolean;
   isMenuPage: boolean;
+  isOrderPage: boolean = false;
 
   constructor(private readonly router: Router) {
     this.isHomePage = this.isHomeRoute(this.router.url);

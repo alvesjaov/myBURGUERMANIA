@@ -4,8 +4,10 @@
     <ng-container *ngIf="!isHomePage">
       <a href="/" class="header-links">Início</a>
     </ng-container>
+    <ng-container *ngIf="!isHomePage">
+      <a href="/pedido" class="header-links">Pedido</a>
+    </ng-container>
     <ng-container *ngIf="!isHomePage && !isMenuPage">
-      <a href="" class="header-links">Categoria</a>
       <a href="/cardapio" class="header-links">Cardápio</a>
     </ng-container>
     <ng-container *ngIf="isHomePage">
