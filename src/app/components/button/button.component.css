@@ -5,8 +5,8 @@
   font-weight: 700;
   padding: 0.6rem 1rem;
   width: 15rem;
-  border-radius: 2rem;
-  border: solid 1px var(--secondary-color);
+  border-radius: .5rem;
+  border: solid 2px var(--secondary-color);
   background-color: var(--withe-color); 
   color: var(--main-color);
 }

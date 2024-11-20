@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component, OnInit } from '@angular/core';
+import { Router, NavigationEnd } from '@angular/router';
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -9,10 +9,29 @@ import { CommonModule } from '@angular/common';
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.css']
 })
-export class HeaderComponent {
+export class HeaderComponent implements OnInit {
   isHomePage: boolean;
+  isMenuPage: boolean;
 
   constructor(private readonly router: Router) {
-    this.isHomePage = this.router.url === '/';
+    this.isHomePage = this.isHomeRoute(this.router.url);
+    this.isMenuPage = this.isMenuRoute(this.router.url);
+  }
+
+  ngOnInit() {
+    this.router.events.subscribe(event => {
+      if (event instanceof NavigationEnd) {
+        this.isHomePage = this.isHomeRoute(this.router.url);
+        this.isMenuPage = this.isMenuRoute(this.router.url);
+      }
+    });
+  }
+
+  private isHomeRoute(url: string): boolean {
+    return url.split('#')[0] === '/';
+  }
+
+  private isMenuRoute(url: string): boolean {
+    return url.split('#')[0] === '/cardapio';
   }
 }
