@@ -171,3 +171,34 @@ main {
     background-color: var(--secondary-color);
     color: var(--white-color);
 }
+
+/* ...existing code... */
+
+@media (max-width: 768px) {
+  .section-menu {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .modal-content {
+    width: 90%;
+  }
+}
+
+@media (max-width: 480px) {
+  .menu-title {
+    font-size: 1.5rem;
+  }
+
+  .section-menu {
+    grid-template-columns: 1fr;
+  }
+
+  .view-full-menu-button, .add-to-order-button {
+    font-size: 0.9rem;
+    padding: 0.5rem 1rem;
+  }
+
+  .quantity-selector button {
+    font-size: 1.5rem;
+  }
+}

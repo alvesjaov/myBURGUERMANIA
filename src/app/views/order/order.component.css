@@ -245,3 +245,32 @@ li {
 .remove-button:hover {
   background-color: darken(var(--red-color), 10%);
 }
+
+@media (max-width: 768px) {
+  .order-item, .order-form {
+    max-width: 100%;
+    padding: 10px;
+  }
+
+  .item-image {
+    width: 25%;
+  }
+}
+
+@media (max-width: 480px) {
+  .order-title {
+    font-size: 1.5rem;
+  }
+
+  .order-description, .order-total, .error-message {
+    font-size: 0.9rem;
+  }
+
+  .form-group input, .form-group select {
+    font-size: 0.9rem;
+  }
+
+  .modal-content {
+    width: 90%;
+  }
+}

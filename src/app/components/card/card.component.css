@@ -41,3 +41,19 @@
     color: var(--secondary-color);
     margin-top: 0.5rem;
 }
+
+@media (max-width: 768px) {
+  .card {
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .card-title {
+    font-size: 0.9rem;
+  }
+
+  .card-price {
+    font-size: 1rem;
+  }
+}

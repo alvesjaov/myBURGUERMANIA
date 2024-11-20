@@ -64,3 +64,19 @@ main {
   height: 1.5rem;
   margin-right: 0.5rem;
 }
+
+@media (max-width: 768px) {
+  .map-iframe {
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .home-location-title, #home-contact-title {
+    font-size: 1.2rem;
+  }
+
+  .home-location-text, .home-contact-text {
+    font-size: 1rem;
+  }
+}
