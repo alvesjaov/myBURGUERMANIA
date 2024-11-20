@@ -1,10 +1,55 @@
-.menu-title{
+main {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--primary-color);
+}
+
+.menu-title {
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: 2.2em;
+    font-size: 2rem;
     font-weight: 800;
-    font-family: var(--Quicksand-font);
+    font-family: var(--Nunito-font);
     color: var(--secondary-color);
-    text-transform: uppercase ;
+    text-transform: uppercase;
+    margin-bottom: 1.5rem;
+}
+
+.section-menu {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin: 16px;
+    height: auto;
+}
+
+.section-title {
+    font-family: var(--Anton-font);
+    font-weight: 400;
+    line-height: 2rem;
+    font-size: 1.5rem;
+    color: var(--main-color);
+    text-transform: uppercase;
+    margin: 1rem 0 .5rem 0;
+}
+
+.view-full-menu-button {
+    cursor: pointer;
+    font-family: var(--Nunito-font);
+    font-size: 1rem;
+    font-weight: 700;
+    padding: 0.6rem 1rem;
+    width: fit-content;
+    border-radius: .5rem;
+    border: solid 2px var(--secondary-color);
+    background-color: var(--withe-color);
+    color: var(--main-color);
+}
+
+.view-full-menu-button:hover {
+    background-color: var(--secondary-color);
+    color: var(--white-color);
 }
