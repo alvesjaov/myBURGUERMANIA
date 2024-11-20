@@ -1,0 +1,69 @@
+<div class="container">
+  <app-header></app-header>
+  <main class="order-list">
+    <h1 class="order-title">Pedido</h1>
+    <div *ngIf="orders.length > 0; else noOrders">
+      <div class="order-item">
+        <ul>
+          <li *ngFor="let item of orders">
+            <img [src]="item.image" alt="Produto" class="item-image">
+            <span class="order-description">{{ item.quantity }}x {{ item.productName }} - {{ (item.price * item.quantity) | currency:'BRL' }}</span>
+          </li>
+        </ul>
+        <p class="order-total">Total: {{ getTotal() | currency:'BRL' }}</p>
+      </div>
+      
+      <p *ngIf="showErrorMessage" class="error-message">É necessário preencher todos os campos.</p>
+      
+      <form class="order-form">
+        <div class="form-group">
+          <label for="customerName">Nome:</label>
+          <input id="customerName" [(ngModel)]="customerName" name="customerName" required placeholder="Digite seu nome">
+        </div>
+        <div class="form-group">
+          <label for="address">Endereço:</label>
+          <input id="address" [(ngModel)]="address" name="address" required placeholder="Digite seu endereço">
+        </div>
+        <div class="form-group">
+          <label for="paymentMethod">Forma de Pagamento:</label>
+          <select id="paymentMethod" [(ngModel)]="paymentMethod" name="paymentMethod" required>
+            <option value="" disabled selected>Selecione uma forma de pagamento</option>
+            <option value="Cartão de Crédito">Cartão de Crédito</option>
+            <option value="Cartão de Débito">Cartão de Débito</option>
+            <option value="PIX">PIX</option>
+          </select>
+        </div>
+        <app-button 
+          [isPrimary]="true" 
+          text="Finalizar Pedido" 
+          (click)="finalizeOrder()" 
+          (keydown)="finalizeOrder()"
+          class="btn-verde">
+        </app-button>
+      </form>
+    </div>
+    <ng-template #noOrders>
+      <p class="no-orders">Nenhum pedido encontrado.</p>
+    </ng-template>
+  </main>
+</div>
+<app-footer></app-footer>
+
+<div *ngIf="showOrderModal" class="modal">
+  <div class="modal-content">
+    <h2>Pedido Finalizado!</h2>
+    <p><strong>Nome:</strong> {{ customerName }}</p>
+    <p><strong>Endereço:</strong> {{ address }}</p>
+    <p><strong>Forma de Pagamento:</strong> Pix</p>
+    <ul>
+      <li *ngFor="let item of orders">
+        <img [src]="item.image" alt="Produto" class="item-image">
+        <span>{{ item.quantity }}x {{ item.productName }} - {{ (item.price * item.quantity) | currency:'BRL' }}</span>
+      </li>
+    </ul>
+    <p><strong>Total do Pedido:</strong> {{ getTotal() | currency:'BRL' }}</p>
+    <div style="text-align: center;">
+      <button (click)="showOrderModal = false">Fechar</button>
+    </div>
+  </div>
+</div>
