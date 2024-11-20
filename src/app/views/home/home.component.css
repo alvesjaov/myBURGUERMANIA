@@ -5,6 +5,14 @@ main {
   justify-content: center;
 }
 
+.main-section{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1.2rem;
+}
+
 .imgBurguer {
   margin: 3rem 0;
 }
@@ -15,15 +23,16 @@ main {
 
 .home-location-title,
 #home-contact-title {
-  font-size: 1.5rem;
-  font-weight: 700;
-  color: var(--main-color);
   font-family: var(--Anton-font);
+  font-weight: 400;
+  line-height: 2rem;
+  font-size: 1.5rem;
+  color: var(--main-color);
   text-transform: uppercase;
   margin: 1rem 0 .5rem 0;
 }
 
-.home-location-text{
+.home-location-text {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -33,14 +42,14 @@ main {
   font-family: var(--Nunito-font);
   margin-bottom: .5rem;
 }
+
 .home-contact-text {
   display: flex;
-  align-items: center;
   align-items: center;
   font-size: 1.2rem;
   font-weight: 400;
   color: var(--main-color);
-  font-family: var(--Nunito-font);  
+  font-family: var(--Nunito-font);
 }
 
 .map-iframe {

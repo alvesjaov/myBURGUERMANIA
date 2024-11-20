@@ -1,7 +1,7 @@
 .button {
   cursor: pointer;
   font-family: var(--Nunito-font); 
-  font-size: 1.35rem;
+  font-size: 1rem;
   font-weight: 700;
   padding: 0.6rem 1rem;
   width: 15rem;
