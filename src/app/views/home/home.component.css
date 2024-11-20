@@ -66,6 +66,10 @@ main {
 }
 
 @media (max-width: 768px) {
+  .imgBurguer {
+    width: 90%;
+
+  }
   .map-iframe {
     width: 100%;
   }
