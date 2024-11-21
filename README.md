@@ -71,6 +71,7 @@ Executa os testes unitários via Karma.
 ### Extensões Recomendadas
 
 As seguintes extensões do Visual Studio Code são recomendadas para um melhor desenvolvimento:
+
 ```
 {
     "recommendations": ["angular.ng-template"]
@@ -80,6 +81,7 @@ As seguintes extensões do Visual Studio Code são recomendadas para um melhor d
 ### Configuração do Servidor JSON
 
 Para executar o servidor JSON localmente, use o comando:
+
 ```
 json-server db.json --port 3000
 ```
@@ -106,5 +108,6 @@ Contribuições são bem-vindas! Sinta-se à vontade para abrir uma issue ou env
 
 Confira algumas fotos do projeto:
 
-![Tela Inicial](assets/images/print-tela-inicial.png)
-![Tela Inicial Responsiva](assets/images/tela-inicial-responsiva.jpg)
+<img src="/src/assets/images/print-tela-inicial.png" alt="Tela Inicial">
+
+<img src="/src/assets/images/tela-inicial-responsiva.jpg)" alt="Tela Inicial Responsiva">
