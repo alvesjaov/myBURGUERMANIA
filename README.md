@@ -6,11 +6,14 @@ Este projeto foi gerado com [Angular CLI](https://github.com/angular/angular-cli
 
 - [Visão Geral](#visão-geral)
 - [Estrutura do Projeto](#estrutura-do-projeto)
+- [Hospedagem](#hospedagem)
 - [Instalação](#instalação)
 - [Scripts Disponíveis](#scripts-disponíveis)
 - [Configuração do Ambiente de Desenvolvimento](#configuração-do-ambiente-de-desenvolvimento)
 - [Uso](#uso)
 - [Contribuição](#contribuição)
+- [Futuras Alterações](#futuras-alterações)
+- [Galeria de Fotos](#galeria-de-fotos)
 
 ## Visão Geral
 
@@ -50,6 +53,16 @@ MyBURGUERMANIA/
 └── tsconfig.spec.json
 ```
 
+## Hospedagem
+
+A aplicação está hospedada no Vercel e pode ser acessada através do seguinte link: [MyBURGUERMANIA](https://my-burguermania.vercel.app/).
+
+Os endpoints utilizam um `db.json` hospedado também no Vercel, acessível nos seguintes links:
+```
+https://json-server-burguermania.vercel.app/products
+https://json-server-burguermania.vercel.app/orders
+https://json-server-burguermania.vercel.app/finalizedOrders
+```
 ## Scripts Disponíveis
 
 No diretório do projeto, você pode executar:
@@ -104,10 +117,14 @@ Preencha as informações necessárias e finalize o pedido.
 
 Contribuições são bem-vindas! Sinta-se à vontade para abrir uma issue ou enviar um pull request.
 
+## Futuras Alterações
+
+- Adicionar histórico de pedidos
+
 ## Galeria de Fotos
 
 Confira algumas fotos do projeto:
 
 <img src="/src/assets/images/print-tela-inicial.png" alt="Tela Inicial">
 
-<img src="/src/assets/images/tela-inicial-responsiva.jpg)" alt="Tela Inicial Responsiva">
+<img src="/src/assets/images/tela-inicial-responsiva.jpg" alt="Tela Inicial Responsiva">
