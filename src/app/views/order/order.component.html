@@ -59,10 +59,11 @@
     <h2>Pedido Finalizado!</h2>
     <p><strong>Nome:</strong> {{ customerName }}</p>
     <p><strong>Endereço:</strong> {{ address }}</p>
-    <p><strong>Forma de Pagamento:</strong> Pix</p>
+    <p><strong>Forma de Pagamento:</strong> {{ paymentMethod }}</p>
+    <h3>Produtos</h3>
     <ul>
-      <li *ngFor="let item of orders">
-        <img [src]="item.image" alt="Produto" class="item-image">
+      <li *ngFor="let item of orders[0].items">
+        <img [src]="item.image" alt="{{ item.productName }}" class="item-image">
         <span>{{ item.quantity }}x {{ item.productName }} - {{ (item.price * item.quantity) | currency:'BRL' }}</span>
       </li>
     </ul>

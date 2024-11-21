@@ -18,7 +18,7 @@ export class MenuComponent {
   selectedProduct: any = null;
   quantity: number = 1;
 
-  constructor(private http: HttpClient) {}
+  constructor(private readonly http: HttpClient) {}
 
   toggleFullMenu() {
     this.showFullMenu = !this.showFullMenu;
@@ -35,7 +35,7 @@ export class MenuComponent {
 
   addToOrder() {
     const order = {
-      customerName: 'Cliente Exemplo',
+      id: this.generateRandomId(), // Gerar um ID aleatório para o pedido
       total: this.selectedProduct.price * this.quantity,
       items: [
         {
@@ -49,7 +49,12 @@ export class MenuComponent {
     this.http.post('https://json-server-burguermania.vercel.app/orders', order)
       .subscribe(response => {
         console.log('Pedido enviado com sucesso!', response);
-        this.selectedProduct = null;
+        this.selectedProduct = null; // Fechar o modal após adicionar o pedido
+        this.quantity = 1; // Resetar a quantidade após adicionar o pedido
       });
+  }
+
+  generateRandomId(): string {
+    return Math.random().toString(36).substr(2, 9);
   }
 }

@@ -117,19 +117,25 @@ export class OrderComponent implements OnInit {
     }
 
     const orderDetails = {
+      id: this.generateRandomId(), // Gerar um ID aleatório para o pedido
       customerName: this.customerName,
       address: this.address,
       paymentMethod: this.paymentMethod,
-      items: this.orders
+      items: this.orders.flatMap(order => order.items) // Combinar todos os itens dos pedidos
     };
 
     this.http.post('https://json-server-burguermania.vercel.app/finalizedOrders', orderDetails)
       .subscribe(response => {
         console.log('Pedido finalizado com sucesso!', response);
+        this.orders = [orderDetails]; // Atualizar a lista de pedidos para exibir no modal
         this.showOverlay = true; // Mostrar a tela de sobreposição após finalizar o pedido
         this.showOrderModal = true;
         this.showErrorMessage = false; // Esconder a mensagem de erro após finalizar o pedido
       });
+  }
+
+  generateRandomId(): string {
+    return Math.random().toString(36).substr(2, 9);
   }
 }
 
