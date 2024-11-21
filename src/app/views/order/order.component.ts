@@ -80,16 +80,16 @@ export class OrderComponent implements OnInit {
 
   getProductImage(productName: string): string {
     const productImages: { [key: string]: string } = {
-      'Hambúrguer Tradicional': '/hamburguer-tradicional.png',
-      'Hambúrguer Vegano': '/hamburguer-vegano.png',
-      'Hambúrguer de Frango': '/hamburguer-frango.png',
-      'Hambúrguer de Bacon': '/hamburgue-bacon.png',
-      'Porção de Batata': '/porcao-batata.png',
-      'Porção de Onion Rings': '/porcao-onion.png',
-      'Porção de Nuggets': '/porcao-nuggets.png',
-      'Coca-cola Lata': '/coca-cola.jpeg',
-      'Coca-cola Zero Lata': '/coca-cola-zero.jpeg',
-      'Guaraná Lata': '/guarana.jpeg'
+      'Hambúrguer Tradicional': 'assets/images/hamburguer-tradicional.png',
+      'Hambúrguer Vegano': 'assets/images/hamburguer-vegano.png',
+      'Hambúrguer de Frango': 'assets/images/hamburguer-frango.png',
+      'Hambúrguer de Bacon': 'assets/images/hamburgue-bacon.png',
+      'Porção de Batata': 'assets/images/porcao-batata.png',
+      'Porção de Onion Rings': 'assets/images/porcao-onion.png',
+      'Porção de Nuggets': 'assets/images/porcao-nuggets.png',
+      'Coca-cola Lata': 'assets/images/coca-cola.jpeg',
+      'Coca-cola Zero Lata': 'assets/images/coca-cola-zero.jpeg',
+      'Guaraná Lata': 'assets/images/guarana.jpeg'
     };
     return productImages[productName as keyof typeof productImages] || '';
   }
