@@ -30,10 +30,11 @@ export class LoginComponent {
     };
     console.log('Iniciando o login com os dados:', loginData); // Log para verificar os dados enviados
 
-    this.http.post(`https://myburguermania-api.onrender.com/api/Login`, loginData).subscribe((response: any) => {
+    const headers = { 'Content-Type': 'application/json' };
+
+    this.http.post(`https://myburguermania-api.onrender.com/api/Login`, loginData, { headers, withCredentials: true }).subscribe((response: any) => {
       console.log('Resposta da API:', response); // Log para verificar a resposta da API
       if (response && response.id) {
-        console.log('Dados do usuário:', response); // Log para verificar os dados do usuário
         localStorage.setItem('token', 'fake-jwt-token');
         localStorage.setItem('username', response.name);
         localStorage.setItem('userId', response.id); // Armazena o ID do usuário
