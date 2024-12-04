@@ -26,6 +26,7 @@ export class HeaderComponent implements OnInit {
     this.isLoginPage = this.isLoginRoute(this.router.url);
     this.isAuthenticated = !!localStorage.getItem('token');
     this.username = localStorage.getItem('username') || '';
+    this.isOrderPage = this.isAuthenticated && this.isOrderRoute(this.router.url);
   }
 
   ngOnInit() {
@@ -34,6 +35,7 @@ export class HeaderComponent implements OnInit {
         this.isHomePage = this.isHomeRoute(this.router.url);
         this.isMenuPage = this.isMenuRoute(this.router.url);
         this.isLoginPage = this.isLoginRoute(this.router.url);
+        this.isOrderPage = this.isAuthenticated && this.isOrderRoute(this.router.url);
       }
     });
   }
@@ -83,5 +85,9 @@ export class HeaderComponent implements OnInit {
 
   private isLoginRoute(url: string): boolean {
     return url.split('#')[0] === '/login';
+  }
+
+  private isOrderRoute(url: string): boolean {
+    return url.split('#')[0] === '/pedido';
   }
 }

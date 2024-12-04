@@ -8,7 +8,7 @@
     <ng-container *ngIf="!isHomePage">
       <a href="/" class="header-links" (click)="closeMenu()">Início</a> 
     </ng-container>
-    <ng-container *ngIf="!isHomePage">
+    <ng-container *ngIf="isAuthenticated && !isHomePage">
       <a href="/pedido" class="header-links" (click)="closeMenu()">Pedido</a> 
     </ng-container>
     <ng-container *ngIf="!isHomePage && !isMenuPage">
