@@ -7,6 +7,8 @@
 }
 
 .container-menu{
+    display: flex;
+    flex-direction: column;
     height: 100vh;
 }
 
@@ -131,6 +133,7 @@ main {
     font-size: 1.8rem;
     font-weight: 700;
     color: var(--secondary-color);
+    cursor: pointer;
 }
 
 .quantity-selector span {
