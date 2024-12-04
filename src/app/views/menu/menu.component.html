@@ -6,30 +6,22 @@
     <section class="section-menu">
       <h2 class="section-title">Hambúrgueres</h2>
       <ng-container *ngFor="let product of products" [ngSwitch]="product.categoryName">
-        <app-card *ngIf="product.categoryName === 'Hambúrgueres'" 
-                  [image]="product.image" 
-                  [title]="product.title" 
-                  [price]="product.price" 
-                  (click)="openProductDetails(product)" 
-                  (keypress)="openProductDetails(product)">
+        <app-card *ngIf="product.categoryName === 'Hambúrgueres'" [image]="product.image" [title]="product.title"
+          [price]="product.price" (click)="openProductDetails(product)" (keypress)="openProductDetails(product)">
         </app-card>
       </ng-container>
     </section>
 
     <button class="view-full-menu-button" (click)="toggleFullMenu()">
-      {{ showFullMenu ? 'Ocultar' : 'Ver Cardápio Completo ↴' }} 
+      {{ showFullMenu ? 'Ocultar' : 'Ver Cardápio Completo ↴' }}
     </button>
 
     <div *ngIf="showFullMenu">
       <section class="section-menu">
         <h2 class="section-title">Porções</h2>
         <ng-container *ngFor="let product of products" [ngSwitch]="product.categoryName">
-          <app-card *ngIf="product.categoryName === 'Porções'" 
-                    [image]="product.image" 
-                    [title]="product.title" 
-                    [price]="product.price" 
-                    (click)="openProductDetails(product)" 
-                    (keypress)="openProductDetails(product)">
+          <app-card *ngIf="product.categoryName === 'Porções'" [image]="product.image" [title]="product.title"
+            [price]="product.price" (click)="openProductDetails(product)" (keypress)="openProductDetails(product)">
           </app-card>
         </ng-container>
       </section>
@@ -37,12 +29,8 @@
       <section class="section-menu">
         <h2 class="section-title">Bebidas</h2>
         <ng-container *ngFor="let product of products" [ngSwitch]="product.categoryName">
-          <app-card *ngIf="product.categoryName === 'Bebidas'" 
-                    [image]="product.image" 
-                    [title]="product.title" 
-                    [price]="product.price" 
-                    (click)="openProductDetails(product)" 
-                    (keypress)="openProductDetails(product)">
+          <app-card *ngIf="product.categoryName === 'Bebidas'" [image]="product.image" [title]="product.title"
+            [price]="product.price" (click)="openProductDetails(product)" (keypress)="openProductDetails(product)">
           </app-card>
         </ng-container>
       </section>
@@ -63,34 +51,25 @@
         <button class="add-to-order-button" (click)="addToBag()">Adicionar à Sacola</button>
       </div>
     </div>
-
-    <img *ngIf="order.length > 0" src="assets/images/shopping-bag.png" alt="Sacola" class="bag-icon" (click)="toggleBagMenu()">
-    <div *ngIf="showBagMenu && order.length > 0" class="mini-menu">
-      <span (click)="toggleBagMenu()" (keydown)="toggleBagMenu()">&times;</span>
-      <h2>Sacola</h2>
-      <ul>
-        <li *ngFor="let item of order">{{ item }}</li>
-      </ul>
-      <button class="submit-order-button" (click)="submitOrder()">Enviar Pedido</button>
+    <div class="">
+      <img *ngIf="order.length > 0" src="assets/images/shopping-bag.png" alt="Sacola" class="bag-icon"
+        (click)="toggleBagMenu()" (keydown)="toggleBagMenu()">
     </div>
-
-    <img *ngIf="order.length > 0" src="assets/images/shopping-bag.png" alt="Sacola" class="bag-icon" (click)="toggleBagMenu()">
     <div *ngIf="showBagMenu && order.length > 0" class="bag-menu">
-      <span (click)="toggleBagMenu()">&times;</span>
+      <span class="x-button" (click)="toggleBagMenu()" (keydown)="toggleBagMenu()">&times;</span>
       <h2>Sacola</h2>
       <ul>
-        <li *ngFor="let item of order">{{ item }}</li>
+        <li *ngFor="let item of order" class="bag-item">
+          <img [src]="item.image" alt="{{ item.name }}" class="bag-item-image">
+          <div class="bag-item-details">
+            <span class="bag-item-name">{{ item.name }}</span>
+            <span class="bag-item-quantity-price">Quantidade: {{ item.quantity }} <span class="bag-item-price">{{
+                (item.price * item.quantity) | currency:'BRL' }}</span></span>
+          </div>
+          <button (click)="removeFromBag(item.id)" class="remove-button">Remover</button>
+        </li>
       </ul>
-      <button class="submit-order-button" (click)="submitOrder()">Enviar Pedido</button>
-    </div>
-
-    <img src="assets/images/shopping-bag.png" alt="Sacola" class="bag-icon" (click)="toggleBagMenu()" (keydown)="toggleBagMenu()">
-    <div *ngIf="showBagMenu" class="bag-menu">
-      <span (click)="toggleBagMenu()">&times;</span>
-      <h2>Sacola</h2>
-      <ul>
-        <li *ngFor="let item of order">{{ item }}</li>
-      </ul>
+      <p class="order-total">Total: <span>{{ getTotal() | currency:'BRL' }}</span></p>
       <button class="submit-order-button" (click)="submitOrder()">Enviar Pedido</button>
     </div>
   </main>

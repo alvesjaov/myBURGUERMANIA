@@ -20,7 +20,7 @@ export class MenuComponent implements OnInit {
   quantity: number = 1;
   products: any[] = [];
   statuses: any[] = []; // Adicionar uma propriedade para armazenar os statuses
-  order: any[] = []; // Adicionar uma propriedade para armazenar o pedido
+  order: { id: string, name: string, quantity: number, image: string, price: number }[] = []; // Modificar a estrutura da sacola
 
   constructor(private readonly http: HttpClient) {}
 
@@ -54,16 +54,29 @@ export class MenuComponent implements OnInit {
     }
 
     const productId = this.selectedProduct.id;
-    const orderItems = Array(this.quantity).fill(productId);
+    const productName = this.selectedProduct.title;
+    const productImage = this.selectedProduct.image;
+    const productPrice = this.selectedProduct.price;
 
-    console.log('Adicionando IDs dos produtos à sacola:', orderItems);
-
-    this.order.push(...orderItems);
+    const existingProduct = this.order.find(item => item.id === productId);
+    if (existingProduct) {
+      existingProduct.quantity += this.quantity;
+    } else {
+      this.order.push({ id: productId, name: productName, quantity: this.quantity, image: productImage, price: productPrice });
+    }
 
     console.log('Sacola atual:', this.order);
 
     this.selectedProduct = null; // Fechar o modal após adicionar à sacola
     this.quantity = 1; // Resetar a quantidade após adicionar à sacola
+  }
+
+  removeFromBag(productId: string) {
+    this.order = this.order.filter(item => item.id !== productId);
+  }
+
+  getTotal() {
+    return this.order.reduce((total, item) => total + item.price * item.quantity, 0);
   }
 
   submitOrder() {
@@ -75,7 +88,7 @@ export class MenuComponent implements OnInit {
 
     const orderPayload = {
       userId: userId,
-      products: this.order
+      products: this.order.map(item => ({ id: item.id, quantity: item.quantity }))
     };
 
     console.log('Enviando pedido:', orderPayload); // Log do pedido antes de enviar

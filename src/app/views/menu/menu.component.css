@@ -1,12 +1,13 @@
-.header-menu{
+.header-menu {
     width: 100%;
 }
+
 .footer-menu {
     width: 100%;
     margin-top: auto;
 }
 
-.container-menu{
+.container-menu {
     display: flex;
     flex-direction: column;
     height: 100vh;
@@ -136,18 +137,18 @@ main {
     cursor: pointer;
 }
 
-.quantity-selector span {
-    font-family: var(--Quicksand-font);
-    font-size: 1.2rem;
-    font-weight: 700;
-    color: var (--main-color);
-}
-
 .quantity-selector {
     display: flex;
     justify-content: center;
     align-items: center;
     margin: 20px 0;
+}
+
+.quantity-selector span {
+    font-family: var(--Quicksand-font);
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--main-color);
 }
 
 .quantity-selector button {
@@ -165,12 +166,11 @@ main {
 }
 
 .quantity-button-right {
-    color: var(--green-color);
+    color: var (--green-color);
 }
 
 .add-to-order-button {
     cursor: pointer;
-    font-family: var(--Nunito-font);
     font-size: 1rem;
     font-weight: 700;
     padding: 1rem;
@@ -187,6 +187,11 @@ main {
     color: var(--white-color);
 }
 
+.div-icon-bag{
+    padding: 20px;
+    background-color: var(--main-color);
+}
+
 .bag-icon {
     position: fixed;
     bottom: 20px;
@@ -194,13 +199,15 @@ main {
     width: 50px;
     height: 50px;
     cursor: pointer;
+    z-index: 999;
+    margin-bottom: 75px;
 }
 
 .bag-menu {
     position: fixed;
     top: 0;
     right: 0;
-    width: 350px;
+    width: 450px;
     height: 100%;
     background-color: var(--white-color);
     border-left: 1px solid var(--main-color);
@@ -211,11 +218,11 @@ main {
     align-items: flex-start;
 }
 
-.bag-menu span {
+.x-button {
     align-self: flex-end;
     cursor: pointer;
     font-family: var(--Anton-font);
-    font-weight: 400;
+    font-weight: 500;
     line-height: 2rem;
     font-size: 2rem;
     color: var(--main-color);
@@ -226,7 +233,7 @@ main {
     font-size: 1.5rem;
     font-weight: 700;
     color: var(--main-color);
-    margin-bottom: 1rem;
+    margin-bottom: 2rem;
 }
 
 .bag-menu ul {
@@ -237,12 +244,81 @@ main {
     overflow-y: auto;
 }
 
-.bag-menu li {
+.bag-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
     font-family: var(--Nunito-font);
     font-size: 1rem;
     font-weight: 500;
     color: var(--main-color);
     margin-bottom: 0.5rem;
+}
+
+.bag-item-image {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    margin-right: 10px;
+}
+
+.bag-item-details {
+    display: flex;
+    flex-direction: column;
+    margin-left: 10px;
+}
+
+.bag-item-name {
+    font-weight: 700;
+    width: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.bag-item-quantity-price {
+    font-weight: 400;
+    color: var(--main-color);
+}
+
+.bag-item-quantity {
+    font-weight: 400;
+    color: var(--main-color);
+}
+
+.bag-item-price {
+    font-weight: 400;
+    color: var(--secondary-color);
+}
+
+.remove-button {
+    cursor: pointer;
+    font-family: var(--Nunito-font);
+    font-size: 0.9rem;
+    font-weight: 700;
+    padding: 0.3rem 0.6rem;
+    border-radius: 0.3rem;
+    border: solid 2px var(--secondary-color);
+    background-color: var(--white-color);
+    color: var (--main-color);
+    margin-left: 10px;
+}
+
+.remove-button:hover {
+    background-color: var(--secondary-color);
+    color: var(--white-color);
+}
+
+.order-total {
+    font-family: var(--Nunito-font);
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--main-color);
+    margin-top: 1rem;
+}
+
+.order-total span {
+    color: var(--secondary-color);
 }
 
 .submit-order-button {
@@ -268,7 +344,7 @@ main {
     position: fixed;
     top: 0;
     right: 0;
-    width: 300px;
+    width: 350px;
     height: 100%;
     background-color: var(--white-color);
     border-left: 1px solid var(--main-color);
@@ -308,7 +384,6 @@ main {
 }
 
 .mini-menu li {
-    font-family: var(--Nunito-font);
     font-size: 1rem;
     font-weight: 500;
     color: var(--main-color);
@@ -316,12 +391,42 @@ main {
 }
 
 @media (max-width: 768px) {
+    .bag-icon {
+        bottom: 10px;
+        /* Ajuste menor para telas menores */
+        right: 10px;
+    }
+
+    main {
+        padding-bottom: 80px;
+        /* Para garantir que o ícone tenha espaço suficiente */
+    }
+
     .section-menu {
         grid-template-columns: repeat(2, 1fr);
     }
 
     .modal-content {
         width: 90%;
+    }
+
+    .bag-menu {
+        width: 100%;
+        border-left: none;
+    }
+
+    .submit-order-button {
+        margin-top: 1rem;
+    }
+
+    .bag-item {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .remove-button {
+        align-self: flex-start;
+        margin-top: 0.5rem;
     }
 }
 
@@ -347,5 +452,29 @@ main {
 
     .quantity-selector button {
         font-size: 1.5rem;
+    }
+
+    .bag-menu {
+        width: 100%;
+        /* Ajustar a largura para 100% */
+        border-left: none;
+        /* Remover a borda esquerda */
+        padding: 1rem;
+        /* Ajustar o padding */
+    }
+
+    .submit-order-button {
+        margin-top: 1rem;
+        /* Garantir que o botão fique abaixo do texto */
+    }
+
+    .bag-item {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .remove-button {
+        align-self: flex-end;
+        margin-top: 0.5rem;
     }
 }
