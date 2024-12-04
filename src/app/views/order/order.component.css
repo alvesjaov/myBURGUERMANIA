@@ -1,7 +1,15 @@
-.container {
+.container-order {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
+}
+
+.header-order{
+  width: 100%;
+}
+.footer-order {
+  width: 100%;
+  margin-top: auto;
 }
 
 .order-list {

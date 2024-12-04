@@ -40,7 +40,9 @@ export class MenuComponent implements OnInit {
 
   addToOrder() {
     const order = {
-      id: this.generateRandomId(), // Gerar um ID aleatório para o pedido
+      userId: 'user-id-exemplo', // Substituir pelo ID do usuário real
+      productIds: [this.selectedProduct.id], // Adicionar o ID do produto
+      statusId: 'status-id-exemplo', // Substituir pelo ID do status real
       total: this.selectedProduct.price * this.quantity,
       items: [
         {
@@ -51,12 +53,18 @@ export class MenuComponent implements OnInit {
       ]
     };
 
-    this.http.post('https://json-server-burguermania.vercel.app/orders', order)
-      .subscribe(response => {
-        console.log('Pedido enviado com sucesso!', response);
-        this.selectedProduct = null; // Fechar o modal após adicionar o pedido
-        this.quantity = 1; // Resetar a quantidade após adicionar o pedido
-      });
+    this.http.post('https://myburguermania-api.onrender.com/api/Order', order)
+      .subscribe(
+        response => {
+          console.log('Pedido enviado com sucesso!', response);
+          this.selectedProduct = null; // Fechar o modal após adicionar o pedido
+          this.quantity = 1; // Resetar a quantidade após adicionar o pedido
+        },
+        error => {
+          console.error('Erro ao enviar pedido:', error);
+          alert('Ocorreu um erro ao enviar o pedido. Por favor, tente novamente.');
+        }
+      );
   }
 
   fetchProducts() {

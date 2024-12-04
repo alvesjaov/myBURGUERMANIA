@@ -1,3 +1,8 @@
+.header-home,
+.footer-home{
+  width: 100%;
+}
+
 main {
   display: flex;
   flex-direction: column;

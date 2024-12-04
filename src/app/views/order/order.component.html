@@ -1,5 +1,5 @@
-<div class="container">
-  <app-header></app-header>
+<div class="container-order">
+  <app-header class="header-order"></app-header>
   <main class="order-list">
     <h1 class="order-title">Pedido</h1>
     <div *ngIf="orders.length > 0; else noOrders">
@@ -51,8 +51,8 @@
       <p class="no-orders">Nenhum pedido encontrado.</p>
     </ng-template>
   </main>
+  <app-footer class="footer-order"></app-footer>
 </div>
-<app-footer></app-footer>
 
 <div *ngIf="showOrderModal" class="modal">
   <div class="modal-content">
