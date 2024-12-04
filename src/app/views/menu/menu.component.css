@@ -172,7 +172,6 @@ main {
     color: var(--white-color);
 }
 
-
 @media (max-width: 768px) {
     .section-menu {
         grid-template-columns: repeat(2, 1fr);
