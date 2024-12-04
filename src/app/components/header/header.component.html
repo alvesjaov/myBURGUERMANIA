@@ -1,8 +1,8 @@
 <header class="app-header">
   <img src="assets/images/burguerManiaLogo.svg" alt="Burguer Mania Logo" />
-  <button class="menu-toggle" (click)="toggleMenu()">
+  <button class="menu-toggle" (click)="toggleMenu();">
     <span *ngIf="!isMenuOpen">&#9776;</span>
-    <span *ngIf="isMenuOpen">&times;</span>
+    <span *ngIf="isMenuOpen" (click)="closeMenu()">&times;</span>
   </button> 
   <nav class="app-nav" [class.open]="isMenuOpen"> 
     <ng-container *ngIf="!isHomePage">
@@ -18,5 +18,18 @@
       <a href="#home-location" class="header-links" (click)="closeMenu()">Localização</a> 
       <a href="#home-contact-title" class="header-links" (click)="closeMenu()">Contato</a> 
     </ng-container>
+    <ng-container *ngIf="!isAuthenticated && !isLoginPage">
+      <a href="/login" class="header-links" (click)="closeMenu()">Login</a>
+    </ng-container>
+    <ng-container *ngIf="isAuthenticated">
+      <a id="header-links-username" (click)="toggleMiniMenu()">{{ username }}</a>
+    </ng-container>
   </nav>
 </header>
+
+<div class="mini-menu" *ngIf="isMiniMenuOpen">
+  <span (click)="closeMenu()">&times;</span>
+  <a href="/seus-dados" class="mini-menu-links" (click)="closeMenu()">Seus Dados</a>
+  <a href="/historico-pedidos" class="mini-menu-links" (click)="closeMenu()">Histórico de Pedidos</a>
+  <a href="#" class="mini-menu-links" (click)="logout()">Sair</a>
+</div>

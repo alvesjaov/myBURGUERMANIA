@@ -13,11 +13,19 @@ export class HeaderComponent implements OnInit {
   isHomePage: boolean;
   isMenuPage: boolean;
   isOrderPage: boolean = false;
-  isMenuOpen: boolean = false; // Adicionado
+  isMenuOpen: boolean = false;
+  isAuthenticated = false;
+  username = '';
+  isModalOpen: boolean = false;
+  isMiniMenuOpen: boolean = false;
+  isLoginPage: boolean;
 
   constructor(private readonly router: Router) {
     this.isHomePage = this.isHomeRoute(this.router.url);
     this.isMenuPage = this.isMenuRoute(this.router.url);
+    this.isLoginPage = this.isLoginRoute(this.router.url);
+    this.isAuthenticated = !!localStorage.getItem('token');
+    this.username = localStorage.getItem('username') || '';
   }
 
   ngOnInit() {
@@ -25,16 +33,37 @@ export class HeaderComponent implements OnInit {
       if (event instanceof NavigationEnd) {
         this.isHomePage = this.isHomeRoute(this.router.url);
         this.isMenuPage = this.isMenuRoute(this.router.url);
+        this.isLoginPage = this.isLoginRoute(this.router.url);
       }
     });
   }
 
-  toggleMenu() { // Adicionado
+  toggleMenu() {
     this.isMenuOpen = !this.isMenuOpen;
   }
 
-  closeMenu() { // Adicionado
-    this.isMenuOpen = false;
+  openModal() {
+    this.isModalOpen = true;
+  }
+
+  closeModal() {
+    this.isModalOpen = false;
+  }
+
+  toggleMiniMenu() {
+    this.isMiniMenuOpen = !this.isMiniMenuOpen;
+  }
+
+  closeMenu() {
+    this.isMiniMenuOpen = false;
+  }
+
+  logout() {
+    localStorage.removeItem('token');
+    localStorage.removeItem('username');
+    localStorage.removeItem('userId');
+    localStorage.removeItem('orderHistory');
+    this.router.navigate(['/login']);
   }
 
   private isHomeRoute(url: string): boolean {
@@ -43,5 +72,9 @@ export class HeaderComponent implements OnInit {
 
   private isMenuRoute(url: string): boolean {
     return url.split('#')[0] === '/cardapio';
+  }
+
+  private isLoginRoute(url: string): boolean {
+    return url.split('#')[0] === '/login';
   }
 }
