@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, HostListener } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
 import { CommonModule } from '@angular/common';
 
@@ -36,6 +36,13 @@ export class HeaderComponent implements OnInit {
         this.isLoginPage = this.isLoginRoute(this.router.url);
       }
     });
+  }
+
+  @HostListener('window:resize', ['$event'])
+  onResize(event: Event) {
+    if (window.innerWidth > 768) {
+      this.isMenuOpen = false;
+    }
   }
 
   toggleMenu() {
