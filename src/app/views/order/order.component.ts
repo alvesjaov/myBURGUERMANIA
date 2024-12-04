@@ -16,7 +16,10 @@ interface OrderItem {
 
 interface Order {
   id: string; // Adicionar a propriedade id no nível do pedido
-  items: OrderItem[];
+  productIds: string[]; // Adicionar a propriedade productIds
+  totalValue: number; // Adicionar a propriedade totalValue
+  productNames: string[]; // Adicionar a propriedade productNames
+  productImageUrls: string[]; // Adicionar a propriedade productImageUrls
 }
 
 @Component({
@@ -43,61 +46,39 @@ export class OrderComponent implements OnInit {
   }
 
   fetchOrders() {
-    this.http.get<Order[]>('https://json-server-burguermania.vercel.app/orders')
-      .subscribe(data => {
-        const combinedOrders: Order[] = [];
+    const orderId = '74959f99-f7c2-4130-8da8-19988d0e6ea3'; // Substituir pelo ID do pedido real
 
-        data.forEach(order => {
-          const existingOrder = combinedOrders.find(o => o.id === order.id);
-          if (existingOrder) {
-            order.items.forEach(item => {
-              const existingItem = existingOrder.items.find(i => i.productName === item.productName);
-              if (existingItem) {
-                existingItem.quantity += item.quantity;
-              } else {
-                existingOrder.items.push({ ...item, image: this.getProductImage(item.productName) });
-              }
-            });
-          } else {
-            combinedOrders.push({
-              ...order,
-              items: order.items.reduce((acc, item) => {
-                const existingItem = acc.find(i => i.productName === item.productName);
-                if (existingItem) {
-                  existingItem.quantity += item.quantity;
-                } else {
-                  acc.push({ ...item, image: this.getProductImage(item.productName) });
-                }
-                return acc;
-              }, [] as OrderItem[])
-            });
-          }
-        });
-
-        this.orders = combinedOrders;
+    this.http.get<any>(`https://myburguermania-api.onrender.com/api/Order/${orderId}`)
+      .subscribe(order => {
+        console.log('Dados do pedido recebidos:', order); // Adicionar log para verificar os dados recebidos
+        if (order && order.productIds && order.productIds.length > 0) {
+          this.orders = [{
+            id: order.id,
+            totalValue: order.totalValue,
+            items: order.productIds.map((productId: string, index: number) => ({
+              productName: order.productNames[index],
+              price: order.totalValue / order.productIds.length, // Ajustar conforme necessário
+              quantity: 1, // Ajustar conforme necessário
+              image: order.productImageUrls[index]
+            }))
+          }];
+        } else {
+          console.error('Pedido ou itens do pedido não encontrados.');
+          this.showErrorMessage = true; // Adicionar esta linha
+        }
+      }, error => {
+        console.error('Erro ao buscar pedido:', error);
       });
   }
 
-  getProductImage(productName: string): string {
-    const productImages: { [key: string]: string } = {
-      'Hambúrguer Tradicional': 'assets/images/hamburguer-tradicional.png',
-      'Hambúrguer Vegano': 'assets/images/hamburguer-vegano.png',
-      'Hambúrguer de Frango': 'assets/images/hamburguer-frango.png',
-      'Hambúrguer de Bacon': 'assets/images/hamburgue-bacon.png',
-      'Porção de Batata': 'assets/images/porcao-batata.png',
-      'Porção de Onion Rings': 'assets/images/porcao-onion.png',
-      'Porção de Nuggets': 'assets/images/porcao-nuggets.png',
-      'Coca-cola Lata': 'assets/images/coca-cola.jpeg',
-      'Coca-cola Zero Lata': 'assets/images/coca-cola-zero.jpeg',
-      'Guaraná Lata': 'assets/images/guarana.jpeg'
-    };
-    return productImages[productName as keyof typeof productImages] || '';
-  }
-
-  getTotal() {
-    return this.orders.reduce((total: number, order: Order) => {
-      return total + order.items.reduce((orderTotal, item) => orderTotal + item.price * item.quantity, 0);
-    }, 0);
+  cancelOrder(orderId: string) {
+    this.http.patch(`https://myburguermania-api.onrender.com/api/Order/${orderId}/cancel`, {})
+      .subscribe(() => {
+        console.log('Pedido cancelado com sucesso!');
+        this.fetchOrders(); // Atualizar a lista de pedidos após cancelar
+      }, error => {
+        console.error('Erro ao cancelar pedido:', error);
+      });
   }
 
   removeItem(orderId: string) {

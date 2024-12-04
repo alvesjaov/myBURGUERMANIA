@@ -15,18 +15,26 @@ import { HttpClient, HttpClientModule } from '@angular/common/http';
 })
 export class MenuComponent implements OnInit {
   showFullMenu: boolean = false;
+  showBagMenu: boolean = false;
   selectedProduct: any = null;
   quantity: number = 1;
   products: any[] = [];
+  statuses: any[] = []; // Adicionar uma propriedade para armazenar os statuses
+  order: any[] = []; // Adicionar uma propriedade para armazenar o pedido
 
   constructor(private readonly http: HttpClient) {}
 
   ngOnInit() {
     this.fetchProducts();
+    this.fetchStatuses(); // Buscar os statuses ao inicializar o componente
   }
 
   toggleFullMenu() {
     this.showFullMenu = !this.showFullMenu;
+  }
+
+  toggleBagMenu() {
+    this.showBagMenu = !this.showBagMenu;
   }
 
   openProductDetails(product: any) {
@@ -38,31 +46,49 @@ export class MenuComponent implements OnInit {
     this.quantity = Math.max(1, this.quantity + amount);
   }
 
-  addToOrder() {
-    const order = {
-      userId: 'user-id-exemplo', // Substituir pelo ID do usuário real
-      productIds: [this.selectedProduct.id], // Adicionar o ID do produto
-      statusId: 'status-id-exemplo', // Substituir pelo ID do status real
-      total: this.selectedProduct.price * this.quantity,
-      items: [
-        {
-          productName: this.selectedProduct.title,
-          quantity: this.quantity,
-          price: this.selectedProduct.price
-        }
-      ]
+  addToBag() {
+    const userId = localStorage.getItem('userId');
+    if (!userId) {
+      alert('Usuário não está logado.');
+      return;
+    }
+
+    const productId = this.selectedProduct.id;
+    const orderItems = Array(this.quantity).fill(productId);
+
+    console.log('Adicionando IDs dos produtos à sacola:', orderItems);
+
+    this.order.push(...orderItems);
+
+    console.log('Sacola atual:', this.order);
+
+    this.selectedProduct = null; // Fechar o modal após adicionar à sacola
+    this.quantity = 1; // Resetar a quantidade após adicionar à sacola
+  }
+
+  submitOrder() {
+    const userId = localStorage.getItem('userId'); // Buscar o ID do usuário logado
+    if (!userId) {
+      alert('Usuário não está logado.');
+      return;
+    }
+
+    const orderPayload = {
+      userId: userId,
+      products: this.order
     };
 
-    this.http.post('https://myburguermania-api.onrender.com/api/Order', order)
+    console.log('Enviando pedido:', orderPayload); // Log do pedido antes de enviar
+
+    this.http.post('https://myburguermania-api.onrender.com/api/order', orderPayload)
       .subscribe(
         response => {
           console.log('Pedido enviado com sucesso!', response);
-          this.selectedProduct = null; // Fechar o modal após adicionar o pedido
-          this.quantity = 1; // Resetar a quantidade após adicionar o pedido
+          this.order = []; // Limpar a sacola após enviar
         },
         error => {
           console.error('Erro ao enviar pedido:', error);
-          alert('Ocorreu um erro ao enviar o pedido. Por favor, tente novamente.');
+          console.log('Pedido:', orderPayload); // Log do pedido em caso de erro
         }
       );
   }
@@ -83,6 +109,19 @@ export class MenuComponent implements OnInit {
         console.error('Erro ao buscar produtos:', error);
       }
     );
+  }
+
+  fetchStatuses() {
+    this.http.get('https://myburguermania-api.onrender.com/api/status')
+      .subscribe(
+        (response: any) => {
+          console.log('Statuses encontrados:', response);
+          this.statuses = response.statuses;
+        },
+        (error) => {
+          console.error('Erro ao buscar statuses:', error);
+        }
+      );
   }
 
   generateRandomId(): string {

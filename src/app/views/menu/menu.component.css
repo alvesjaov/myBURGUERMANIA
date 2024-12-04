@@ -140,7 +140,7 @@ main {
     font-family: var(--Quicksand-font);
     font-size: 1.2rem;
     font-weight: 700;
-    color: var(--main-color);
+    color: var (--main-color);
 }
 
 .quantity-selector {
@@ -185,6 +185,134 @@ main {
 .add-to-order-button:hover {
     background-color: var(--secondary-color);
     color: var(--white-color);
+}
+
+.bag-icon {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 50px;
+    height: 50px;
+    cursor: pointer;
+}
+
+.bag-menu {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 350px;
+    height: 100%;
+    background-color: var(--white-color);
+    border-left: 1px solid var(--main-color);
+    z-index: 1000;
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.bag-menu span {
+    align-self: flex-end;
+    cursor: pointer;
+    font-family: var(--Anton-font);
+    font-weight: 400;
+    line-height: 2rem;
+    font-size: 2rem;
+    color: var(--main-color);
+}
+
+.bag-menu h2 {
+    font-family: var(--Nunito-font);
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--main-color);
+    margin-bottom: 1rem;
+}
+
+.bag-menu ul {
+    list-style: none;
+    padding: 0;
+    width: 100%;
+    flex-grow: 1;
+    overflow-y: auto;
+}
+
+.bag-menu li {
+    font-family: var(--Nunito-font);
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--main-color);
+    margin-bottom: 0.5rem;
+}
+
+.submit-order-button {
+    cursor: pointer;
+    font-family: var(--Nunito-font);
+    font-size: 1rem;
+    font-weight: 700;
+    padding: 0.6rem 1rem;
+    width: fit-content;
+    border-radius: .5rem;
+    border: solid 2px var(--secondary-color);
+    background-color: var(--white-color);
+    color: var(--main-color);
+    margin-top: 1rem;
+}
+
+.submit-order-button:hover {
+    background-color: var(--secondary-color);
+    color: var(--white-color);
+}
+
+.mini-menu {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 300px;
+    height: 100%;
+    background-color: var(--white-color);
+    border-left: 1px solid var(--main-color);
+    z-index: 1000;
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    border-top-left-radius: 1rem;
+    border-bottom-left-radius: 1rem;
+}
+
+.mini-menu span {
+    align-self: flex-end;
+    cursor: pointer;
+    font-family: var(--Anton-font);
+    font-weight: 400;
+    line-height: 2rem;
+    font-size: 2rem;
+    color: var(--main-color);
+}
+
+.mini-menu h2 {
+    font-family: var(--Nunito-font);
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--main-color);
+    margin-bottom: 1rem;
+}
+
+.mini-menu ul {
+    list-style: none;
+    padding: 0;
+    width: 100%;
+    flex-grow: 1;
+    overflow-y: auto;
+}
+
+.mini-menu li {
+    font-family: var(--Nunito-font);
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--main-color);
+    margin-bottom: 0.5rem;
 }
 
 @media (max-width: 768px) {

@@ -13,9 +13,10 @@
               </li>
             </ul>
             <button (click)="removeItem(order.id)" class="remove-button"> ✘Remover </button>
+            <button (click)="cancelOrder(order.id)" class="cancel-button">Cancelar Pedido</button> <!-- Adicionar botão para cancelar pedido -->
           </li>
         </ul>
-        <p class="order-total">Total: {{ getTotal() | currency:'BRL' }}</p>
+        <p class="order-total">Total: {{ orders[0].totalValue | currency:'BRL' }}</p> <!-- Ajustar para usar o total do pedido vindo da API -->
       </div>
       
       <p *ngIf="showErrorMessage" class="error-message">É necessário preencher todos os campos.</p>
@@ -67,7 +68,7 @@
         <span>{{ item.quantity }}x {{ item.productName }} - {{ (item.price * item.quantity) | currency:'BRL' }}</span>
       </li>
     </ul>
-    <p><strong>Total do Pedido:</strong> {{ getTotal() | currency:'BRL' }}</p>
+    <p><strong>Total do Pedido:</strong> {{ orders[0].totalValue | currency:'BRL' }}</p> <!-- Ajustar para usar o total do pedido vindo da API -->
     <div class="modal-footer">
       <button (click)="showOrderModal = false" class="close-button">Fechar</button>
     </div>
