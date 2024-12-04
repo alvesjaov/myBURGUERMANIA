@@ -1,0 +1,17 @@
+<div class="container-login">
+  <app-header class="header-login"></app-header>
+  <h1 class="title-login">Login</h1>
+  <p class="subtitle-login">Faça login para acessar o sistema</p>
+  <form (ngSubmit)="onSubmit()" class="login-form">
+    <div class="input-container">
+      <input type="email" id="email" name="email" [(ngModel)]="email" required placeholder=" ">
+      <label for="email" class="floating-label">Email</label>
+    </div>
+    <div class="input-container">
+      <input type="password" id="password" name="password" [(ngModel)]="password" required placeholder=" ">
+      <label for="password" class="floating-label">Senha</label>
+    </div>
+    <button type="submit">Entrar</button>
+  </form>
+  <app-footer class="footer-login"></app-footer>
+</div>
