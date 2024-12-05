@@ -55,6 +55,13 @@ MyBURGUERMANIA/
 
 ## Instalação
 
+Clone o repositório e entre na pasta do projeto:
+
+```bash
+git clone https://github.com/seu-usuario/MyBURGUERMANIA.git
+cd MyBURGUERMANIA
+```
+
 No diretório do projeto, você pode executar: `npm install`
 
 1. Instala todas as dependências necessárias para o projeto.  `npm start`
