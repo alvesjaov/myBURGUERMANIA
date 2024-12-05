@@ -145,9 +145,15 @@ export class MenuComponent implements OnInit {
       return;
     }
 
+    const statusId = this.statuses.find(status => status.name === 'Pendente')?.id;
+    if (!statusId) {
+      alert('Status não encontrado.');
+      return;
+    }
+
     const orderPayload = {
       userId: userId,
-      statusId: 'de344f3b-1f4f-4eb3-8003-92016980d186',
+      statusId: statusId,
       selectedProductsId: this.selectedProductsId
     };
 
