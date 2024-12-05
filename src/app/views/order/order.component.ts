@@ -22,6 +22,27 @@ interface Order {
   productImageUrls: string[]; // Adicionar a propriedade productImageUrls
 }
 
+interface UserOrderHistory {
+  id: string;
+  status: {
+    name: string;
+  };
+  totalValue: number;
+  selectedProducts: {
+    productIds: string[];
+    productNames: string[];
+    productImageUrls: string[];
+    productPrices: number[];
+  };
+}
+
+interface MappedOrder {
+  id: string;
+  statusName: string;
+  totalValue: number;
+  items: OrderItem[];
+}
+
 @Component({
   selector: 'app-order',
   standalone: true,
@@ -38,6 +59,7 @@ export class OrderComponent implements OnInit {
   showOverlay: boolean = false; 
   showOrderModal: boolean = false;
   showErrorMessage: boolean = false;
+  showBagMenu: boolean = false;
 
   constructor(private readonly http: HttpClient) {}
 
@@ -46,28 +68,40 @@ export class OrderComponent implements OnInit {
   }
 
   fetchOrders() {
-    const orderId = '74959f99-f7c2-4130-8da8-19988d0e6ea3'; // Substituir pelo ID do pedido real
+    const userId = localStorage.getItem('userId');
+    if (!userId) {
+      console.error('Usuário não está logado.');
+      return;
+    }
 
-    this.http.get<any>(`https://myburguermania-api.onrender.com/api/Order/${orderId}`)
-      .subscribe(order => {
-        console.log('Dados do pedido recebidos:', order); // Adicionar log para verificar os dados recebidos
-        if (order && order.productIds && order.productIds.length > 0) {
-          this.orders = [{
-            id: order.id,
-            totalValue: order.totalValue,
-            items: order.productIds.map((productId: string, index: number) => ({
-              productName: order.productNames[index],
-              price: order.totalValue / order.productIds.length, // Ajustar conforme necessário
-              quantity: 1, // Ajustar conforme necessário
-              image: order.productImageUrls[index]
-            }))
-          }];
-        } else {
-          console.error('Pedido ou itens do pedido não encontrados.');
-          this.showErrorMessage = true; // Adicionar esta linha
-        }
+    this.http.get<any>(`https://myburguermania-api.onrender.com/api/User/${userId}`)
+      .subscribe(user => {
+        console.log('Histórico de pedidos do usuário:', user.orderHistory); // Adicionar log para verificar os dados recebidos
+        const orderHistory: UserOrderHistory[] = user.orderHistory;
+
+        const orderDetailsRequests = orderHistory.map(order =>
+          this.http.get<any>(`https://myburguermania-api.onrender.com/api/Order/${order.id}`).toPromise()
+        );
+
+        Promise.all(orderDetailsRequests).then(orderDetailsResponses => {
+          this.orders = orderDetailsResponses
+            .filter(orderDetails => orderDetails.statusName !== 'Cancelado' && orderDetails.statusName !== 'Entregue') // Filtrar pedidos
+            .map(orderDetails => ({
+              id: orderDetails.id,
+              statusName: orderDetails.statusName,
+              totalValue: orderDetails.totalValue,
+              items: orderDetails.productIds.map((productId: string, index: number) => ({
+                productName: orderDetails.productNames[index],
+                price: orderDetails.totalValue / orderDetails.productIds.length, // Ajustar conforme necessário
+                quantity: 1, // Ajustar conforme necessário
+                image: orderDetails.productImageUrls[index]
+              }))
+            }) as MappedOrder);
+        }).catch(error => {
+          console.error('Erro ao buscar detalhes dos pedidos:', error);
+        });
       }, error => {
-        console.error('Erro ao buscar pedido:', error);
+        console.error('Erro ao buscar histórico de pedidos do usuário:', error);
       });
   }
 
@@ -81,42 +115,9 @@ export class OrderComponent implements OnInit {
       });
   }
 
-  removeItem(orderId: string) {
-    const index = this.orders.findIndex(order => order.id === orderId);
-    if (index > -1) {
-      this.orders.splice(index, 1);
-      this.http.delete(`https://json-server-burguermania.vercel.app/orders/${orderId}`).subscribe(() => {
-        console.log('Pedido removido com sucesso!');
-      });
-    }
+  toggleBagMenu(): void {
+    this.showBagMenu = !this.showBagMenu;
   }
 
-  finalizeOrder() {
-    if (!this.customerName || !this.address || !this.paymentMethod) {
-      this.showErrorMessage = true;
-      return;
-    }
-
-    const orderDetails = {
-      id: this.generateRandomId(), // Gerar um ID aleatório para o pedido
-      customerName: this.customerName,
-      address: this.address,
-      paymentMethod: this.paymentMethod,
-      items: this.orders.flatMap(order => order.items) // Combinar todos os itens dos pedidos
-    };
-
-    this.http.post('https://json-server-burguermania.vercel.app/finalizedOrders', orderDetails)
-      .subscribe(response => {
-        console.log('Pedido finalizado com sucesso!', response);
-        this.orders = [orderDetails]; // Atualizar a lista de pedidos para exibir no modal
-        this.showOverlay = true; // Mostrar a tela de sobreposição após finalizar o pedido
-        this.showOrderModal = true;
-        this.showErrorMessage = false; // Esconder a mensagem de erro após finalizar o pedido
-      });
-  }
-
-  generateRandomId(): string {
-    return Math.random().toString(36).substr(2, 9);
-  }
 }
 

@@ -1,76 +1,27 @@
 <div class="container-order">
   <app-header class="header-order"></app-header>
   <main class="order-list">
-    <h1 class="order-title">Pedido</h1>
+    <h1 class="order-title">Meus Pedidos</h1>
     <div *ngIf="orders.length > 0; else noOrders">
-      <div class="order-item">
+      <div class="order-card" *ngFor="let order of orders">
+        <p class="order-id">Pedido: {{ order.id }}</p> <!-- Exibir o ID do pedido -->
         <ul>
-          <li *ngFor="let order of orders">
-            <ul>
-              <li *ngFor="let item of order.items">
-                <img [src]="item.image" alt="Produto" class="item-image">
-                <span class="order-description">{{ item.quantity }}x {{ item.productName }} - {{ (item.price * item.quantity) | currency:'BRL' }}</span>
-              </li>
-            </ul>
-            <button (click)="removeItem(order.id)" class="remove-button"> ✘Remover </button>
-            <button (click)="cancelOrder(order.id)" class="cancel-button">Cancelar Pedido</button> <!-- Adicionar botão para cancelar pedido -->
+          <li *ngFor="let item of order.items" class="order-item-details">
+            <img [src]="item.image" alt="Produto" class="order-item-image">
+            <div class="order-item-info">
+              <span class="order-item-name">{{ item.productName }}</span>
+              <span class="order-item-quantity-price">{{ item.quantity }}x {{ item.productName }} - {{ (item.price * item.quantity) | currency:'BRL' }}</span>
+            </div>
           </li>
         </ul>
-        <p class="order-total">Total: {{ orders[0].totalValue | currency:'BRL' }}</p> <!-- Ajustar para usar o total do pedido vindo da API -->
+        <p class="order-status">Status: {{ order.statusName }}</p> <!-- Adicionar exibição do status do pedido -->
+        <button (click)="cancelOrder(order.id)" class="cancel-button">Cancelar Pedido</button> <!-- Adicionar botão para cancelar pedido -->
+        <p class="order-total">Total: {{ order.totalValue | currency:'BRL' }}</p> <!-- Exibir o valor total de cada pedido -->
       </div>
-      
-      <p *ngIf="showErrorMessage" class="error-message">É necessário preencher todos os campos.</p>
-      
-      <form class="order-form">
-        <div class="form-group">
-          <label for="customerName">Nome:</label>
-          <input id="customerName" [(ngModel)]="customerName" name="customerName" required placeholder="Digite seu nome">
-        </div>
-        <div class="form-group">
-          <label for="address">Endereço:</label>
-          <input id="address" [(ngModel)]="address" name="address" required placeholder="Digite seu endereço">
-        </div>
-        <div class="form-group">
-          <label for="paymentMethod">Forma de Pagamento:</label>
-          <select id="paymentMethod" [(ngModel)]="paymentMethod" name="paymentMethod" required>
-            <option value="" disabled selected>Selecione uma forma de pagamento</option>
-            <option value="Cartão de Crédito">Cartão de Crédito</option>
-            <option value="Cartão de Débito">Cartão de Débito</option>
-            <option value="PIX">PIX</option>
-          </select>
-        </div>
-        <app-button 
-          [isPrimary]="true" 
-          text="Finalizar Pedido" 
-          (click)="finalizeOrder()" 
-          (keydown)="finalizeOrder()"
-          class="btn-verde">
-        </app-button>
-      </form>
     </div>
     <ng-template #noOrders>
       <p class="no-orders">Nenhum pedido encontrado.</p>
     </ng-template>
   </main>
   <app-footer class="footer-order"></app-footer>
-</div>
-
-<div *ngIf="showOrderModal" class="modal">
-  <div class="modal-content">
-    <h2>Pedido Finalizado!</h2>
-    <p><strong>Nome:</strong> {{ customerName }}</p>
-    <p><strong>Endereço:</strong> {{ address }}</p>
-    <p><strong>Forma de Pagamento:</strong> {{ paymentMethod }}</p>
-    <h3>Produtos</h3>
-    <ul>
-      <li *ngFor="let item of orders[0].items">
-        <img [src]="item.image" alt="{{ item.productName }}" class="item-image">
-        <span>{{ item.quantity }}x {{ item.productName }} - {{ (item.price * item.quantity) | currency:'BRL' }}</span>
-      </li>
-    </ul>
-    <p><strong>Total do Pedido:</strong> {{ orders[0].totalValue | currency:'BRL' }}</p> <!-- Ajustar para usar o total do pedido vindo da API -->
-    <div class="modal-footer">
-      <button (click)="showOrderModal = false" class="close-button">Fechar</button>
-    </div>
-  </div>
 </div>
