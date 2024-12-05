@@ -29,6 +29,7 @@ export class MenuComponent implements OnInit {
   ngOnInit() {
     this.fetchCategories(); // Buscar as categorias ao inicializar o componente
     this.fetchStatuses(); // Buscar os statuses ao inicializar o componente
+    this.loadBagFromCache(); // Carregar a sacola do cache ao inicializar o componente
   }
 
   toggleFullMenu() {
@@ -71,10 +72,12 @@ export class MenuComponent implements OnInit {
 
     this.selectedProduct = null; // Fechar o modal após adicionar à sacola
     this.quantity = 1; // Resetar a quantidade após adicionar à sacola
+    this.saveBagToCache(); // Salvar a sacola no cache após adicionar um item
   }
 
   removeFromBag(productId: string) {
     this.order = this.order.filter(item => item.id !== productId);
+    this.saveBagToCache(); // Salvar a sacola no cache após remover um item
   }
 
   getTotal() {
@@ -153,5 +156,16 @@ export class MenuComponent implements OnInit {
 
   hasProductsInCategory(categoryName: string): boolean {
     return this.products.some(product => product.categoryName === categoryName);
+  }
+
+  saveBagToCache() {
+    localStorage.setItem('order', JSON.stringify(this.order));
+  }
+
+  loadBagFromCache() {
+    const cachedOrder = localStorage.getItem('order');
+    if (cachedOrder) {
+      this.order = JSON.parse(cachedOrder);
+    }
   }
 }
