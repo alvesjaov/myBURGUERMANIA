@@ -99,21 +99,31 @@ export class OrderComponent implements OnInit {
               console.log('Detalhes dos pedidos:', orderDetailsResponses); // Adicionar log para verificar os detalhes dos pedidos
               this.orders = orderDetailsResponses
                 .filter(orderDetails => orderDetails.statusName !== 'Cancelado' && orderDetails.statusName !== 'Entregue') // Filtrar pedidos
-                .map(orderDetails => ({
-                  id: orderDetails.id,
-                  statusName: orderDetails.statusName,
-                  totalValue: orderDetails.totalValue,
-                  items: orderDetails.productIds.map((productId: string, index: number) => {
+                .map(orderDetails => {
+                  const itemsMap = new Map<string, OrderItem>();
+                  orderDetails.productIds.forEach((productId: string, index: number) => {
                     const product = productDetailsMap.get(productId);
-                    console.log('Detalhes do produto:', product); // Adicionar log para verificar os detalhes do produto
-                    return {
-                      productName: product?.title || 'Produto desconhecido', // Atualizar para 'title'
-                      price: product?.price || 0, // Usar o preço correto de cada produto
-                      quantity: 1, // Ajustar conforme necessário
-                      image: product?.image || '' // Atualizar para 'image'
-                    };
-                  }).filter((item: OrderItem) => item.productName && item.image) // Ignorar produtos sem imagem ou nome
-                }) as MappedOrder);
+                    if (product) {
+                      const existingItem = itemsMap.get(productId);
+                      if (existingItem) {
+                        existingItem.quantity += 1; // Somar a quantidade de itens com IDs iguais
+                      } else {
+                        itemsMap.set(productId, {
+                          productName: product.title || 'Produto desconhecido', // Atualizar para 'title'
+                          price: product.price || 0, // Usar o preço correto de cada produto
+                          quantity: 1, // Ajustar conforme necessário
+                          image: product.image || '' // Atualizar para 'image'
+                        });
+                      }
+                    }
+                  });
+                  return {
+                    id: orderDetails.id,
+                    statusName: orderDetails.statusName,
+                    totalValue: orderDetails.totalValue,
+                    items: Array.from(itemsMap.values()).filter((item: OrderItem) => item.productName && item.image) // Ignorar produtos sem imagem ou nome
+                  } as MappedOrder;
+                });
               console.log('Pedidos mapeados:', this.orders); // Adicionar log para verificar os pedidos mapeados
             }).catch(error => {
               console.error('Erro ao buscar detalhes dos pedidos:', error);
