@@ -23,6 +23,7 @@ export class MenuComponent implements OnInit {
   statuses: any[] = []; // Adicionar uma propriedade para armazenar os statuses
   order: { id: string, name: string, quantity: number, image: string, price: number }[] = []; // Modificar a estrutura da sacola
   hamburgueres: any[] = []; // Adicionar uma propriedade para armazenar os produtos da categoria "Hambúrgueres"
+  selectedProductsId: string | null = null; // Adicionar uma propriedade para armazenar o ID dos produtos selecionados
 
   constructor(private readonly http: HttpClient) {}
 
@@ -30,6 +31,7 @@ export class MenuComponent implements OnInit {
     this.fetchCategories(); // Buscar as categorias ao inicializar o componente
     this.fetchStatuses(); // Buscar os statuses ao inicializar o componente
     this.loadBagFromCache(); // Carregar a sacola do cache ao inicializar o componente
+    this.loadSelectedProductsIdFromCache(); // Carregar o ID dos produtos selecionados do cache ao inicializar o componente
   }
 
   toggleFullMenu() {
@@ -73,11 +75,59 @@ export class MenuComponent implements OnInit {
     this.selectedProduct = null; // Fechar o modal após adicionar à sacola
     this.quantity = 1; // Resetar a quantidade após adicionar à sacola
     this.saveBagToCache(); // Salvar a sacola no cache após adicionar um item
+
+    // Adicionar produtos à rota SelectedProducts
+    this.updateSelectedProducts();
+    this.saveSelectedProductsIdToCache(); // Salvar o ID dos produtos selecionados no cache após adicionar um item
   }
 
   removeFromBag(productId: string) {
     this.order = this.order.filter(item => item.id !== productId);
     this.saveBagToCache(); // Salvar a sacola no cache após remover um item
+
+    // Remover produto da rota SelectedProducts
+    if (this.selectedProductsId !== null) {
+      this.http.delete(`https://myburguermania-api.onrender.com/api/SelectedProducts/${this.selectedProductsId}/product/${productId}`)
+        .subscribe(
+          response => {
+            console.log('Produto removido com sucesso!', response);
+          },
+          error => {
+            console.error('Erro ao remover produto:', error);
+          }
+        );
+    }
+    this.saveSelectedProductsIdToCache(); // Salvar o ID dos produtos selecionados no cache após remover um item
+  }
+
+  updateSelectedProducts() {
+    const productIds = this.order.map(item => item.id);
+
+    if (this.selectedProductsId !== null) {
+      // Adicionar produtos a um SelectedProducts existente
+      this.http.put(`https://myburguermania-api.onrender.com/api/SelectedProducts/${this.selectedProductsId}`, productIds)
+        .subscribe(
+          response => {
+            console.log('Produtos selecionados atualizados com sucesso!', response);
+          },
+          error => {
+            console.error('Erro ao atualizar produtos selecionados:', error);
+          }
+        );
+    } else {
+      // Criar novos produtos selecionados
+      this.http.post('https://myburguermania-api.onrender.com/api/SelectedProducts', productIds)
+        .subscribe(
+          (response: any) => {
+            console.log('Produtos selecionados criados com sucesso!', response);
+            this.selectedProductsId = response.id; // Armazenar o ID dos produtos selecionados
+            this.saveSelectedProductsIdToCache(); // Salvar o ID dos produtos selecionados no cache após criar
+          },
+          error => {
+            console.error('Erro ao criar produtos selecionados:', error);
+          }
+        );
+    }
   }
 
   getTotal() {
@@ -91,9 +141,15 @@ export class MenuComponent implements OnInit {
       return;
     }
 
+    if (!this.selectedProductsId) {
+      alert('Nenhum produto selecionado.');
+      return;
+    }
+
     const orderPayload = {
       userId: userId,
-      products: this.order.map(item => ({ id: item.id, quantity: item.quantity }))
+      statusId: 'de344f3b-1f4f-4eb3-8003-92016980d186',
+      selectedProductsId: this.selectedProductsId
     };
 
     console.log('Enviando pedido:', orderPayload); // Log do pedido antes de enviar
@@ -103,6 +159,7 @@ export class MenuComponent implements OnInit {
         response => {
           console.log('Pedido enviado com sucesso!', response);
           this.order = []; // Limpar a sacola após enviar
+          this.selectedProductsId = null; // Resetar o ID dos produtos selecionados
         },
         error => {
           console.error('Erro ao enviar pedido:', error);
@@ -166,6 +223,19 @@ export class MenuComponent implements OnInit {
     const cachedOrder = localStorage.getItem('order');
     if (cachedOrder) {
       this.order = JSON.parse(cachedOrder);
+    }
+  }
+
+  saveSelectedProductsIdToCache() {
+    if (this.selectedProductsId !== null) {
+      localStorage.setItem('selectedProductsId', this.selectedProductsId);
+    }
+  }
+
+  loadSelectedProductsIdFromCache() {
+    const cachedSelectedProductsId = localStorage.getItem('selectedProductsId');
+    if (cachedSelectedProductsId) {
+      this.selectedProductsId = cachedSelectedProductsId;
     }
   }
 }
