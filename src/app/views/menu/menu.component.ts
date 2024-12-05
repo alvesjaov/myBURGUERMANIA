@@ -30,7 +30,7 @@ export class MenuComponent implements OnInit {
   ngOnInit() {
     this.fetchCategories(); // Buscar as categorias ao inicializar o componente
     this.fetchStatuses(); // Buscar os statuses ao inicializar o componente
-    this.fetchSelectedProductsId(); // Buscar o ID dos produtos selecionados ao inicializar o componente
+    // this.fetchSelectedProductsId(); // Remover a busca de ID dos produtos selecionados ao inicializar o componente
   }
 
   toggleFullMenu() {
@@ -111,7 +111,12 @@ export class MenuComponent implements OnInit {
         );
     } else {
       // Criar novos produtos selecionados
-      this.http.post('https://myburguermania-api.onrender.com/api/SelectedProducts', productIds)
+      const payload = {
+        userId: localStorage.getItem('userId'),
+        productIds: productIds
+      };
+
+      this.http.post('https://myburguermania-api.onrender.com/api/SelectedProducts', payload)
         .subscribe(
           (response: any) => {
             console.log('Produtos selecionados criados com sucesso!', response);
@@ -200,21 +205,21 @@ export class MenuComponent implements OnInit {
     );
   }
 
-  fetchSelectedProductsId() {
-    const userId = localStorage.getItem('userId');
-    if (userId) {
-      this.http.get(`https://myburguermania-api.onrender.com/api/SelectedProducts/user/${userId}`)
-        .subscribe(
-          (response: any) => {
-            console.log('ID dos produtos selecionados encontrado:', response);
-            this.selectedProductsId = response.id;
-          },
-          (error: any) => {
-            console.error('Erro ao buscar ID dos produtos selecionados:', error);
-          }
-        );
-    }
-  }
+  // fetchSelectedProductsId() {
+  //   const userId = localStorage.getItem('userId');
+  //   if (userId) {
+  //     this.http.get(`https://myburguermania-api.onrender.com/api/SelectedProducts/user/${userId}`)
+  //       .subscribe(
+  //         (response: any) => {
+  //           console.log('ID dos produtos selecionados encontrado:', response);
+  //           this.selectedProductsId = response.id;
+  //         },
+  //         (error: any) => {
+  //           console.error('Erro ao buscar ID dos produtos selecionados:', error);
+  //         }
+  //       );
+  //   }
+  // }
 
   generateRandomId(): string {
     return Math.random().toString(36).substr(2, 9);
