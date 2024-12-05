@@ -53,65 +53,33 @@ MyBURGUERMANIA/
 └── tsconfig.spec.json
 ```
 
-## Hospedagem
+## Instalação
 
-A aplicação está hospedada no Vercel e pode ser acessada através do seguinte link: [MyBURGUERMANIA](https://my-burguermania.vercel.app/).
+No diretório do projeto, você pode executar: `npm install`
 
-Os endpoints utilizam um `db.json` hospedado também no Vercel, acessível nos seguintes links:
-```
-https://json-server-burguermania.vercel.app/products
-https://json-server-burguermania.vercel.app/orders
-https://json-server-burguermania.vercel.app/finalizedOrders
-```
-## Scripts Disponíveis
+1. Instala todas as dependências necessárias para o projeto.  `npm start`
 
-No diretório do projeto, você pode executar:
+2. Executa a aplicação em modo de desenvolvimento. Abra [http://localhost:4200](http://localhost:4200) para visualizá-la no navegador.
 
-### `npm start`
-
-Executa a aplicação em modo de desenvolvimento. Abra [http://localhost:4200](http://localhost:4200) para visualizá-la no navegador.
-
-### `npm run build`
-
-Compila a aplicação para produção na pasta `dist`.
-
-### `npm test`
-
-Executa os testes unitários via Karma.
+3. Executa os testes unitários via Karma.
 
 ## Configuração do Ambiente de Desenvolvimento
 
-### Extensões Recomendadas
-
-As seguintes extensões do Visual Studio Code são recomendadas para um melhor desenvolvimento:
-
-```
-{
-    "recommendations": ["angular.ng-template"]
-}
-```
-
-### Configuração do Servidor JSON
-
-Para executar o servidor JSON localmente, use o comando:
-
-```
-json-server db.json --port 3000
-```
-
-## Uso
-
 ### Visualizar o Cardápio
 
-Acesse a página do cardápio para visualizar os produtos disponíveis.
+1. Acesse a página do cardápio para visualizar os produtos disponíveis.
 
 ### Fazer um Pedido
 
-Selecione os produtos desejados e adicione-os ao pedido.
+2. Para fazer um pedido, é necessário estar logado. Utilize as seguintes credenciais para login:
+    - **Email:** admin@myburguer.com
+    - **Senha:** Admin@123
 
-### Finalizar Pedido
+3. Selecione os produtos desejados e adicione-os ao pedido clicando na sacola. Você pode adicionar mais produtos ou remover da sacola conforme necessário.
 
-Preencha as informações necessárias e finalize o pedido.
+### Enviar Pedido
+
+4. Envie o pedido e, na tela de pedido, veja o status do pedido, se ele está pendente ou em preparação.
 
 ## Contribuição
 
@@ -126,5 +94,3 @@ Contribuições são bem-vindas! Sinta-se à vontade para abrir uma issue ou env
 Confira algumas fotos do projeto:
 
 <img src="/src/assets/images/print-tela-inicial.png" alt="Tela Inicial">
-
-<img src="/src/assets/images/tela-inicial-responsiva.jpg" alt="Tela Inicial Responsiva">
