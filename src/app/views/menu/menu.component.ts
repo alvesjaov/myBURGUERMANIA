@@ -30,8 +30,7 @@ export class MenuComponent implements OnInit {
   ngOnInit() {
     this.fetchCategories(); // Buscar as categorias ao inicializar o componente
     this.fetchStatuses(); // Buscar os statuses ao inicializar o componente
-    this.loadBagFromCache(); // Carregar a sacola do cache ao inicializar o componente
-    this.loadSelectedProductsIdFromCache(); // Carregar o ID dos produtos selecionados do cache ao inicializar o componente
+    this.fetchSelectedProductsId(); // Buscar o ID dos produtos selecionados ao inicializar o componente
   }
 
   toggleFullMenu() {
@@ -74,16 +73,13 @@ export class MenuComponent implements OnInit {
 
     this.selectedProduct = null; // Fechar o modal após adicionar à sacola
     this.quantity = 1; // Resetar a quantidade após adicionar à sacola
-    this.saveBagToCache(); // Salvar a sacola no cache após adicionar um item
 
     // Adicionar produtos à rota SelectedProducts
     this.updateSelectedProducts();
-    this.saveSelectedProductsIdToCache(); // Salvar o ID dos produtos selecionados no cache após adicionar um item
   }
 
   removeFromBag(productId: string) {
     this.order = this.order.filter(item => item.id !== productId);
-    this.saveBagToCache(); // Salvar a sacola no cache após remover um item
 
     // Remover produto da rota SelectedProducts
     if (this.selectedProductsId !== null) {
@@ -97,7 +93,6 @@ export class MenuComponent implements OnInit {
           }
         );
     }
-    this.saveSelectedProductsIdToCache(); // Salvar o ID dos produtos selecionados no cache após remover um item
   }
 
   updateSelectedProducts() {
@@ -121,7 +116,6 @@ export class MenuComponent implements OnInit {
           (response: any) => {
             console.log('Produtos selecionados criados com sucesso!', response);
             this.selectedProductsId = response.id; // Armazenar o ID dos produtos selecionados
-            this.saveSelectedProductsIdToCache(); // Salvar o ID dos produtos selecionados no cache após criar
           },
           error => {
             console.error('Erro ao criar produtos selecionados:', error);
@@ -159,7 +153,6 @@ export class MenuComponent implements OnInit {
         response => {
           console.log('Pedido enviado com sucesso!', response);
           this.order = []; // Limpar a sacola após enviar
-          this.selectedProductsId = null; // Resetar o ID dos produtos selecionados
         },
         error => {
           console.error('Erro ao enviar pedido:', error);
@@ -207,35 +200,27 @@ export class MenuComponent implements OnInit {
     );
   }
 
+  fetchSelectedProductsId() {
+    const userId = localStorage.getItem('userId');
+    if (userId) {
+      this.http.get(`https://myburguermania-api.onrender.com/api/SelectedProducts/user/${userId}`)
+        .subscribe(
+          (response: any) => {
+            console.log('ID dos produtos selecionados encontrado:', response);
+            this.selectedProductsId = response.id;
+          },
+          (error: any) => {
+            console.error('Erro ao buscar ID dos produtos selecionados:', error);
+          }
+        );
+    }
+  }
+
   generateRandomId(): string {
     return Math.random().toString(36).substr(2, 9);
   }
 
   hasProductsInCategory(categoryName: string): boolean {
     return this.products.some(product => product.categoryName === categoryName);
-  }
-
-  saveBagToCache() {
-    localStorage.setItem('order', JSON.stringify(this.order));
-  }
-
-  loadBagFromCache() {
-    const cachedOrder = localStorage.getItem('order');
-    if (cachedOrder) {
-      this.order = JSON.parse(cachedOrder);
-    }
-  }
-
-  saveSelectedProductsIdToCache() {
-    if (this.selectedProductsId !== null) {
-      localStorage.setItem('selectedProductsId', this.selectedProductsId);
-    }
-  }
-
-  loadSelectedProductsIdFromCache() {
-    const cachedSelectedProductsId = localStorage.getItem('selectedProductsId');
-    if (cachedSelectedProductsId) {
-      this.selectedProductsId = cachedSelectedProductsId;
-    }
   }
 }
