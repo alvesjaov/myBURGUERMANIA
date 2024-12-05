@@ -3,34 +3,59 @@
   <main>
     <h1 class="menu-title">Cardápio</h1>
 
-    <section class="section-menu">
+    <section class="section-menu" *ngIf="hasProductsInCategory('Hambúrgueres')">
       <h2 class="section-title">Hambúrgueres</h2>
       <ng-container *ngFor="let product of products" [ngSwitch]="product.categoryName">
-        <app-card *ngIf="product.categoryName === 'Hambúrgueres'" [image]="product.image" [title]="product.title"
-          [price]="product.price" (click)="openProductDetails(product)" (keypress)="openProductDetails(product)">
+        <app-card *ngIf="product.categoryName === 'Hambúrgueres'" 
+                  [image]="product.image" 
+                  [title]="product.title" 
+                  [price]="product.price" 
+                  (click)="openProductDetails(product)" 
+                  (keypress)="openProductDetails(product)">
         </app-card>
       </ng-container>
     </section>
 
     <button class="view-full-menu-button" (click)="toggleFullMenu()">
-      {{ showFullMenu ? 'Ocultar' : 'Ver Cardápio Completo ↴' }}
+      {{ showFullMenu ? 'Ocultar' : 'Ver Cardápio Completo ↴' }} 
     </button>
 
     <div *ngIf="showFullMenu">
-      <section class="section-menu">
+      <section class="section-menu" *ngIf="hasProductsInCategory('Porções')">
         <h2 class="section-title">Porções</h2>
         <ng-container *ngFor="let product of products" [ngSwitch]="product.categoryName">
-          <app-card *ngIf="product.categoryName === 'Porções'" [image]="product.image" [title]="product.title"
-            [price]="product.price" (click)="openProductDetails(product)" (keypress)="openProductDetails(product)">
+          <app-card *ngIf="product.categoryName === 'Porções'" 
+                    [image]="product.image" 
+                    [title]="product.title" 
+                    [price]="product.price" 
+                    (click)="openProductDetails(product)" 
+                    (keypress)="openProductDetails(product)">
           </app-card>
         </ng-container>
       </section>
 
-      <section class="section-menu">
+      <section class="section-menu" *ngIf="hasProductsInCategory('Bebidas')">
         <h2 class="section-title">Bebidas</h2>
         <ng-container *ngFor="let product of products" [ngSwitch]="product.categoryName">
-          <app-card *ngIf="product.categoryName === 'Bebidas'" [image]="product.image" [title]="product.title"
-            [price]="product.price" (click)="openProductDetails(product)" (keypress)="openProductDetails(product)">
+          <app-card *ngIf="product.categoryName === 'Bebidas'" 
+                    [image]="product.image" 
+                    [title]="product.title" 
+                    [price]="product.price" 
+                    (click)="openProductDetails(product)" 
+                    (keypress)="openProductDetails(product)">
+          </app-card>
+        </ng-container>
+      </section>
+
+      <section class="section-menu" *ngIf="hasProductsInCategory('Sobremesas')">
+        <h2 class="section-title">Sobremesas</h2>
+        <ng-container *ngFor="let product of products" [ngSwitch]="product.categoryName">
+          <app-card *ngIf="product.categoryName === 'Sobremesas'" 
+                    [image]="product.image" 
+                    [title]="product.title" 
+                    [price]="product.price" 
+                    (click)="openProductDetails(product)" 
+                    (keypress)="openProductDetails(product)">
           </app-card>
         </ng-container>
       </section>

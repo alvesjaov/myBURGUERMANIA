@@ -19,13 +19,15 @@ export class MenuComponent implements OnInit {
   selectedProduct: any = null;
   quantity: number = 1;
   products: any[] = [];
+  categories: any[] = []; // Adicionar uma propriedade para armazenar as categorias
   statuses: any[] = []; // Adicionar uma propriedade para armazenar os statuses
   order: { id: string, name: string, quantity: number, image: string, price: number }[] = []; // Modificar a estrutura da sacola
+  hamburgueres: any[] = []; // Adicionar uma propriedade para armazenar os produtos da categoria "Hambúrgueres"
 
   constructor(private readonly http: HttpClient) {}
 
   ngOnInit() {
-    this.fetchProducts();
+    this.fetchCategories(); // Buscar as categorias ao inicializar o componente
     this.fetchStatuses(); // Buscar os statuses ao inicializar o componente
   }
 
@@ -106,24 +108,6 @@ export class MenuComponent implements OnInit {
       );
   }
 
-  fetchProducts() {
-    console.log('Iniciando a busca de produtos...');
-    this.http.get('https://myburguermania-api.onrender.com/api/product', {
-      headers: {
-        'Access-Control-Allow-Origin': '*'
-      }
-    })
-    .subscribe(
-      (response: any) => {
-        console.log('Resposta da API:', response);
-        this.products = response.produtos;
-      },
-      (error) => {
-        console.error('Erro ao buscar produtos:', error);
-      }
-    );
-  }
-
   fetchStatuses() {
     this.http.get('https://myburguermania-api.onrender.com/api/status')
       .subscribe(
@@ -131,13 +115,43 @@ export class MenuComponent implements OnInit {
           console.log('Statuses encontrados:', response);
           this.statuses = response.statuses;
         },
-        (error) => {
+        (error: any) => {
           console.error('Erro ao buscar statuses:', error);
         }
       );
   }
 
+  fetchCategories() {
+    console.log('Iniciando a busca de categorias...');
+    this.http.get('https://myburguermania-api.onrender.com/api/Category', {
+      headers: {
+        'Access-Control-Allow-Origin': '*'
+      }
+    })
+    .subscribe(
+      (response: any) => {
+        console.log('Resposta da API:', response);
+        this.categories = response.categorias
+          .filter((category: any) => category.products && category.products.length > 0) // Filtrar categorias vazias
+          .sort((a: any, b: any) => {
+            const order = ['Hambúrgueres', 'Porções', 'Bebidas', 'Sobremesas'];
+            return order.indexOf(a.name) - order.indexOf(b.name);
+          });
+        this.products = this.categories.flatMap((category: any) => 
+          category.products.map((product: any) => ({ ...product, categoryName: category.name }))
+        ); // Armazenar todos os produtos com a propriedade categoryName
+      },
+      (error: any) => {
+        console.error('Erro ao buscar categorias:', error);
+      }
+    );
+  }
+
   generateRandomId(): string {
     return Math.random().toString(36).substr(2, 9);
+  }
+
+  hasProductsInCategory(categoryName: string): boolean {
+    return this.products.some(product => product.categoryName === categoryName);
   }
 }
