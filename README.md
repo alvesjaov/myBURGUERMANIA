@@ -45,7 +45,7 @@ MyBURGUERMANIA/
 Clone o repositório e entre na pasta do projeto:
 
 ```bash
-git clone https://github.com/seu-usuario/MyBURGUERMANIA.git
+git clone https://github.com/alvesjaov/myBURGUERMANIA.git
 cd MyBURGUERMANIA
 ```
 
