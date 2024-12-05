@@ -28,12 +28,7 @@ interface UserOrderHistory {
     name: string;
   };
   totalValue: number;
-  selectedProducts: {
-    productIds: string[];
-    productNames: string[];
-    productImageUrls: string[];
-    productPrices: number[];
-  };
+  // Remover a propriedade selectedProducts
 }
 
 interface MappedOrder {
@@ -41,6 +36,13 @@ interface MappedOrder {
   statusName: string;
   totalValue: number;
   items: OrderItem[];
+}
+
+interface Product {
+  id: string;
+  title: string; // Atualizar para 'title'
+  price: number;
+  image: string; // Atualizar para 'image'
 }
 
 @Component({
@@ -79,27 +81,46 @@ export class OrderComponent implements OnInit {
         console.log('Histórico de pedidos do usuário:', user.orderHistory); // Adicionar log para verificar os dados recebidos
         const orderHistory: UserOrderHistory[] = user.orderHistory;
 
-        const orderDetailsRequests = orderHistory.map(order =>
-          this.http.get<any>(`https://myburguermania-api.onrender.com/api/Order/${order.id}`).toPromise()
-        );
+        this.http.get<any>(`https://myburguermania-api.onrender.com/api/Product`)
+          .subscribe(response => {
+            console.log('Resposta da API de produtos:', response); // Adicionar log para verificar a resposta da API de produtos
+            const products = response.produtos;
+            if (!Array.isArray(products)) {
+              console.error('Erro: a resposta da API de produtos não é um array.');
+              return;
+            }
+            const productDetailsMap = new Map(products.map((product: Product) => [product.id, product]));
 
-        Promise.all(orderDetailsRequests).then(orderDetailsResponses => {
-          this.orders = orderDetailsResponses
-            .filter(orderDetails => orderDetails.statusName !== 'Cancelado' && orderDetails.statusName !== 'Entregue') // Filtrar pedidos
-            .map(orderDetails => ({
-              id: orderDetails.id,
-              statusName: orderDetails.statusName,
-              totalValue: orderDetails.totalValue,
-              items: orderDetails.productIds.map((productId: string, index: number) => ({
-                productName: orderDetails.productNames[index],
-                price: orderDetails.totalValue / orderDetails.productIds.length, // Ajustar conforme necessário
-                quantity: 1, // Ajustar conforme necessário
-                image: orderDetails.productImageUrls[index]
-              }))
-            }) as MappedOrder);
-        }).catch(error => {
-          console.error('Erro ao buscar detalhes dos pedidos:', error);
-        });
+            const orderDetailsRequests = orderHistory.map(order =>
+              this.http.get<any>(`https://myburguermania-api.onrender.com/api/Order/${order.id}`).toPromise()
+            );
+
+            Promise.all(orderDetailsRequests).then(orderDetailsResponses => {
+              console.log('Detalhes dos pedidos:', orderDetailsResponses); // Adicionar log para verificar os detalhes dos pedidos
+              this.orders = orderDetailsResponses
+                .filter(orderDetails => orderDetails.statusName !== 'Cancelado' && orderDetails.statusName !== 'Entregue') // Filtrar pedidos
+                .map(orderDetails => ({
+                  id: orderDetails.id,
+                  statusName: orderDetails.statusName,
+                  totalValue: orderDetails.totalValue,
+                  items: orderDetails.productIds.map((productId: string, index: number) => {
+                    const product = productDetailsMap.get(productId);
+                    console.log('Detalhes do produto:', product); // Adicionar log para verificar os detalhes do produto
+                    return {
+                      productName: product?.title || 'Produto desconhecido', // Atualizar para 'title'
+                      price: product?.price || 0, // Usar o preço correto de cada produto
+                      quantity: 1, // Ajustar conforme necessário
+                      image: product?.image || '' // Atualizar para 'image'
+                    };
+                  }).filter((item: OrderItem) => item.productName && item.image) // Ignorar produtos sem imagem ou nome
+                }) as MappedOrder);
+              console.log('Pedidos mapeados:', this.orders); // Adicionar log para verificar os pedidos mapeados
+            }).catch(error => {
+              console.error('Erro ao buscar detalhes dos pedidos:', error);
+            });
+          }, error => {
+            console.error('Erro ao buscar detalhes dos produtos:', error);
+          });
       }, error => {
         console.error('Erro ao buscar histórico de pedidos do usuário:', error);
       });
